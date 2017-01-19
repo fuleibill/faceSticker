@@ -9,6 +9,15 @@
 /* Begin PBXBuildFile section */
 		A98631331E30580700909317 /* noseSingleMeng.png in Resources */ = {isa = PBXBuildFile; fileRef = A98631321E30580700909317 /* noseSingleMeng.png */; };
 		A98631351E30658800909317 /* newyearHear.png in Resources */ = {isa = PBXBuildFile; fileRef = A98631341E30658800909317 /* newyearHear.png */; };
+		A9863C751E308DD500909317 /* libGPUImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A9863C721E308DC500909317 /* libGPUImage.a */; };
+		A9863C791E30933A00909317 /* faceRedTag.png in Resources */ = {isa = PBXBuildFile; fileRef = A9863C781E30933A00909317 /* faceRedTag.png */; };
+		A9863C851E30B90B00909317 /* cocacolaIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = A9863C7E1E30B90B00909317 /* cocacolaIcon.png */; };
+		A9863C861E30B90B00909317 /* earIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = A9863C7F1E30B90B00909317 /* earIcon.png */; };
+		A9863C871E30B90B00909317 /* elemeIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = A9863C801E30B90B00909317 /* elemeIcon.png */; };
+		A9863C881E30B90B00909317 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = A9863C811E30B90B00909317 /* icon.png */; };
+		A9863C891E30B90B00909317 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = A9863C821E30B90B00909317 /* logo.png */; };
+		A9863C8A1E30B90B00909317 /* newYearIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = A9863C831E30B90B00909317 /* newYearIcon.png */; };
+		A9863C8B1E30B90B00909317 /* seaIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = A9863C841E30B90B00909317 /* seaIcon.png */; };
 		FD5F06981D1793E100A9E45A /* GPUImageBeautifyFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5F06971D1793E100A9E45A /* GPUImageBeautifyFilter.m */; };
 		FD6BA4521D12CE440080EB2D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FD6BA4501D12CE440080EB2D /* Main.storyboard */; };
 		FD8D74B61E0CB94200D1C8CD /* CanvasView.m in Sources */ = {isa = PBXBuildFile; fileRef = FD8D749A1E0CB94200D1C8CD /* CanvasView.m */; };
@@ -33,10 +42,30 @@
 		FDAAD25E1CE1CD7A00C7B6AC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FDAAD25D1CE1CD7A00C7B6AC /* Assets.xcassets */; };
 		FDAAD2611CE1CD7A00C7B6AC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FDAAD25F1CE1CD7A00C7B6AC /* LaunchScreen.storyboard */; };
 		FDAAD26C1CE1CD7B00C7B6AC /* LearnOpenGLESWithGPUImageTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FDAAD26B1CE1CD7B00C7B6AC /* LearnOpenGLESWithGPUImageTests.m */; };
-		FDF35B271CFF0FF30059EAEA /* libGPUImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FDF35B221CFF0FE70059EAEA /* libGPUImage.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		A9863C711E308DC500909317 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A9863C691E308DC500909317 /* GPUImage.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BCF1A33414DDB1EC00852800;
+			remoteInfo = GPUImage;
+		};
+		A9863C731E308DC500909317 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A9863C691E308DC500909317 /* GPUImage.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BCE209E51943F20C002FEED8;
+			remoteInfo = GPUImageFramework;
+		};
+		A9863C761E308DDA00909317 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A9863C691E308DC500909317 /* GPUImage.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = BCF1A33314DDB1EC00852800;
+			remoteInfo = GPUImage;
+		};
 		FDAAD2681CE1CD7B00C7B6AC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = FDAAD2461CE1CD7A00C7B6AC /* Project object */;
@@ -44,32 +73,20 @@
 			remoteGlobalIDString = FDAAD24D1CE1CD7A00C7B6AC;
 			remoteInfo = LearnOpenGLESWithGPUImage;
 		};
-		FDF35B211CFF0FE70059EAEA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = FDF35B1B1CFF0FE60059EAEA /* GPUImage.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = BCF1A33414DDB1EC00852800;
-			remoteInfo = GPUImage;
-		};
-		FDF35B231CFF0FE70059EAEA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = FDF35B1B1CFF0FE60059EAEA /* GPUImage.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = BCE209E51943F20C002FEED8;
-			remoteInfo = GPUImageFramework;
-		};
-		FDF35B2E1CFF1B980059EAEA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = FDF35B1B1CFF0FE60059EAEA /* GPUImage.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = BCF1A33314DDB1EC00852800;
-			remoteInfo = GPUImage;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		A98631321E30580700909317 /* noseSingleMeng.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = noseSingleMeng.png; sourceTree = "<group>"; };
 		A98631341E30658800909317 /* newyearHear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = newyearHear.png; sourceTree = "<group>"; };
+		A9863C691E308DC500909317 /* GPUImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = GPUImage.xcodeproj; sourceTree = "<group>"; };
+		A9863C781E30933A00909317 /* faceRedTag.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = faceRedTag.png; sourceTree = "<group>"; };
+		A9863C7E1E30B90B00909317 /* cocacolaIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cocacolaIcon.png; sourceTree = "<group>"; };
+		A9863C7F1E30B90B00909317 /* earIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = earIcon.png; sourceTree = "<group>"; };
+		A9863C801E30B90B00909317 /* elemeIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = elemeIcon.png; sourceTree = "<group>"; };
+		A9863C811E30B90B00909317 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
+		A9863C821E30B90B00909317 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
+		A9863C831E30B90B00909317 /* newYearIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = newYearIcon.png; sourceTree = "<group>"; };
+		A9863C841E30B90B00909317 /* seaIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = seaIcon.png; sourceTree = "<group>"; };
 		FD5F06961D1793E100A9E45A /* GPUImageBeautifyFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPUImageBeautifyFilter.h; sourceTree = "<group>"; };
 		FD5F06971D1793E100A9E45A /* GPUImageBeautifyFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPUImageBeautifyFilter.m; sourceTree = "<group>"; };
 		FD6BA4511D12CE440080EB2D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -111,7 +128,6 @@
 		FDAAD2671CE1CD7B00C7B6AC /* LearnOpenGLESWithGPUImageTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LearnOpenGLESWithGPUImageTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDAAD26B1CE1CD7B00C7B6AC /* LearnOpenGLESWithGPUImageTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LearnOpenGLESWithGPUImageTests.m; sourceTree = "<group>"; };
 		FDAAD26D1CE1CD7B00C7B6AC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FDF35B1B1CFF0FE60059EAEA /* GPUImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GPUImage.xcodeproj; path = ../framework/GPUImage.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,12 +135,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A9863C751E308DD500909317 /* libGPUImage.a in Frameworks */,
 				FD8D74CA1E0CBDF800D1C8CD /* SystemConfiguration.framework in Frameworks */,
 				FD8D74C81E0CBDEB00D1C8CD /* CoreTelephony.framework in Frameworks */,
 				FD8D74C61E0CBDD600D1C8CD /* libc++.tbd in Frameworks */,
 				FD8D74C41E0CBDD200D1C8CD /* libz.tbd in Frameworks */,
 				FD8D74C01E0CB94200D1C8CD /* iflyMSC.framework in Frameworks */,
-				FDF35B271CFF0FF30059EAEA /* libGPUImage.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,6 +154,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A9863C6A1E308DC500909317 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A9863C721E308DC500909317 /* libGPUImage.a */,
+				A9863C741E308DC500909317 /* GPUImage.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A9863C8C1E30B91000909317 /* res */ = {
+			isa = PBXGroup;
+			children = (
+				A9863C7E1E30B90B00909317 /* cocacolaIcon.png */,
+				A9863C7F1E30B90B00909317 /* earIcon.png */,
+				A9863C801E30B90B00909317 /* elemeIcon.png */,
+				A9863C811E30B90B00909317 /* icon.png */,
+				A9863C821E30B90B00909317 /* logo.png */,
+				A9863C831E30B90B00909317 /* newYearIcon.png */,
+				A9863C841E30B90B00909317 /* seaIcon.png */,
+				A9863C781E30933A00909317 /* faceRedTag.png */,
+				A98631341E30658800909317 /* newyearHear.png */,
+				A98631321E30580700909317 /* noseSingleMeng.png */,
+				FD8D74CB1E0CC1E100D1C8CD /* Crown.png */,
+			);
+			name = res;
+			sourceTree = "<group>";
+		};
 		D9659FC4A6DF917D6C94AB64 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -145,7 +188,7 @@
 				FD8D74C71E0CBDEB00D1C8CD /* CoreTelephony.framework */,
 				FD8D74C51E0CBDD600D1C8CD /* libc++.tbd */,
 				FD8D74C31E0CBDD200D1C8CD /* libz.tbd */,
-				FDF35B1B1CFF0FE60059EAEA /* GPUImage.xcodeproj */,
+				A9863C691E308DC500909317 /* GPUImage.xcodeproj */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -153,9 +196,7 @@
 		FD8D748A1E0CB94200D1C8CD /* lib */ = {
 			isa = PBXGroup;
 			children = (
-				A98631341E30658800909317 /* newyearHear.png */,
-				A98631321E30580700909317 /* noseSingleMeng.png */,
-				FD8D74CB1E0CC1E100D1C8CD /* Crown.png */,
+				A9863C8C1E30B91000909317 /* res */,
 				FD8D748B1E0CB94200D1C8CD /* FaceRecognition */,
 				FD8D74B11E0CB94200D1C8CD /* iflyMSC.framework */,
 			);
@@ -292,15 +333,6 @@
 			path = LearnOpenGLESWithGPUImageTests;
 			sourceTree = "<group>";
 		};
-		FDF35B1C1CFF0FE60059EAEA /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				FDF35B221CFF0FE70059EAEA /* libGPUImage.a */,
-				FDF35B241CFF0FE70059EAEA /* GPUImage.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -315,7 +347,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				FDF35B2F1CFF1B980059EAEA /* PBXTargetDependency */,
+				A9863C771E308DDA00909317 /* PBXTargetDependency */,
 			);
 			name = LearnOpenGLESWithGPUImage;
 			productName = LearnOpenGLESWithGPUImage;
@@ -372,8 +404,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = FDF35B1C1CFF0FE60059EAEA /* Products */;
-					ProjectRef = FDF35B1B1CFF0FE60059EAEA /* GPUImage.xcodeproj */;
+					ProductGroup = A9863C6A1E308DC500909317 /* Products */;
+					ProjectRef = A9863C691E308DC500909317 /* GPUImage.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -385,18 +417,18 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		FDF35B221CFF0FE70059EAEA /* libGPUImage.a */ = {
+		A9863C721E308DC500909317 /* libGPUImage.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libGPUImage.a;
-			remoteRef = FDF35B211CFF0FE70059EAEA /* PBXContainerItemProxy */;
+			remoteRef = A9863C711E308DC500909317 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		FDF35B241CFF0FE70059EAEA /* GPUImage.framework */ = {
+		A9863C741E308DC500909317 /* GPUImage.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = GPUImage.framework;
-			remoteRef = FDF35B231CFF0FE70059EAEA /* PBXContainerItemProxy */;
+			remoteRef = A9863C731E308DC500909317 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -407,8 +439,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				FDAAD2611CE1CD7A00C7B6AC /* LaunchScreen.storyboard in Resources */,
+				A9863C871E30B90B00909317 /* elemeIcon.png in Resources */,
+				A9863C8B1E30B90B00909317 /* seaIcon.png in Resources */,
+				A9863C8A1E30B90B00909317 /* newYearIcon.png in Resources */,
+				A9863C851E30B90B00909317 /* cocacolaIcon.png in Resources */,
 				FD8D74CC1E0CC1E100D1C8CD /* Crown.png in Resources */,
+				A9863C791E30933A00909317 /* faceRedTag.png in Resources */,
 				FDAAD25E1CE1CD7A00C7B6AC /* Assets.xcassets in Resources */,
+				A9863C881E30B90B00909317 /* icon.png in Resources */,
+				A9863C861E30B90B00909317 /* earIcon.png in Resources */,
+				A9863C891E30B90B00909317 /* logo.png in Resources */,
 				A98631351E30658800909317 /* newyearHear.png in Resources */,
 				A98631331E30580700909317 /* noseSingleMeng.png in Resources */,
 				FD6BA4521D12CE440080EB2D /* Main.storyboard in Resources */,
@@ -457,15 +497,15 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		A9863C771E308DDA00909317 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = GPUImage;
+			targetProxy = A9863C761E308DDA00909317 /* PBXContainerItemProxy */;
+		};
 		FDAAD2691CE1CD7B00C7B6AC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = FDAAD24D1CE1CD7A00C7B6AC /* LearnOpenGLESWithGPUImage */;
 			targetProxy = FDAAD2681CE1CD7B00C7B6AC /* PBXContainerItemProxy */;
-		};
-		FDF35B2F1CFF1B980059EAEA /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = GPUImage;
-			targetProxy = FDF35B2E1CFF1B980059EAEA /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

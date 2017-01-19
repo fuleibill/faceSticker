@@ -6,6 +6,9 @@
 
 #import "CanvasView.h"
 
+#define kDeviceHeight [UIScreen mainScreen].bounds.size.height
+#define kDeviceWidth  [UIScreen mainScreen].bounds.size.width
+
 @interface CanvasView ()
 
 //头部贴图
@@ -105,7 +108,7 @@
             CGPoint strPoint4 = CGPointFromString(((NSString *)strPoints[20]));
 //            CGContextAddEllipseInRect(context,CGRectMake(strPoint4.x - 1 , strPoint4.y - 1 , 2 , 2));
             
-           rotation = atan((strPoint3.x+strPoint4.x -strPoint1.x - strPoint2.x)/(strPoint3.y +strPoint4.y - strPoint1.y - strPoint2.y));
+           rotation = atan((strPoint3.x+strPoint4.x -strPoint1.x - strPoint2.x)/(strPoint3.y +strPoint4.y - strPoint1.y - strPoint2.y)*1.4);
             
             
 #pragma mark - 取眉毛的点算头部的位置
@@ -146,7 +149,7 @@
                 CGFloat headMapViewW = scale * self.headMap.size.width;
                 CGFloat headmapViewH = scale * self.headMap.size.height;
                 
-               CGRect frame  =  CGRectMake(midpoint.x - (headMapViewW * 0.5), midpoint.y - headmapViewH/2, headMapViewW, headmapViewH);
+               CGRect frame  =  CGRectMake(midpoint.x - (headMapViewW * 0.5), midpoint.y - headmapViewH/2 - (kDeviceHeight-kDeviceWidth/480*640)/2, headMapViewW, headmapViewH);
 //                CGRect frame  =  CGRectMake(midpoint.x - (headMapViewW * 0.5), midpoint.y - headmapViewH/1.2, headMapViewW, headmapViewH);
                 
                 self.headMapView.frame = frame;
@@ -161,7 +164,7 @@
                 CGFloat noseMapViewW = scale * self.noseMap.size.width /3.5;
                 CGFloat nosemapViewH = scale * self.noseMap.size.height /3.5;
                 
-                CGRect frame  =  CGRectMake(nosepoint.x , nosepoint.y - nosemapViewH/2.3, noseMapViewW, nosemapViewH);
+                CGRect frame  =  CGRectMake(nosepoint.x , nosepoint.y - nosemapViewH /1.2 - (kDeviceHeight-kDeviceWidth/480*640)/2, noseMapViewW, nosemapViewH);
                 
                 self.noseMapView.frame = frame;
                 self.noseMapView.bounds = CGRectMake(0, 0, noseMapViewW, nosemapViewH);

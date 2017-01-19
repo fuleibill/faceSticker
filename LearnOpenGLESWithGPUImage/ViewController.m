@@ -23,16 +23,23 @@
 @property (nonatomic , strong) GPUImageUIElement *faceView;
 @property (nonatomic, strong) GPUImageView *filterView;
 @property (nonatomic , strong) GPUImageAddBlendFilter *blendFilter;
-/*
+/**
  人脸识别
  */
-@property (nonatomic, retain ) IFlyFaceDetector           *faceDetector;
+@property (nonatomic, retain ) IFlyFaceDetector *faceDetector;
 @property (nonatomic , strong) CanvasView   *viewCanvas;
-/*
+/**
  Device orientation
  */
 @property (nonatomic) CMMotionManager *motionManager;
 @property (nonatomic) UIInterfaceOrientation interfaceOrientation;
+
+@property (nonatomic) UIButton *firstStyleButton;
+@property (nonatomic) UIButton *secondStyleButton;
+@property (nonatomic) UIButton *thirdStyleButton;
+@property (nonatomic) UIButton *fourthStyleButton;
+@property (nonatomic) UIButton *fifthStyleButton;
+
 @end
 
 
@@ -42,8 +49,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
     // 人脸识别
-    self.viewCanvas = [[CanvasView alloc] initWithFrame:self.view.bounds];
+    self.viewCanvas = [[CanvasView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width / 480 * 640)];
     self.viewCanvas.backgroundColor = [UIColor clearColor];
     self.viewCanvas.headMap = [UIImage imageNamed:@"newyearHear"];
     self.viewCanvas.noseMap = [UIImage imageNamed:@"noseSingleMeng"];
@@ -53,15 +61,18 @@
         [self.faceDetector setParameter:@"1" forKey:@"align"];
     }
     
+//    [self.viewCanvas setBackgroundColor:[UIColor whiteColor]];
+    
     // 滤镜初始化
     self.faceView = [[GPUImageUIElement alloc] initWithView:self.viewCanvas];
-    self.videoCamera = [[GPUImageVideoCamera alloc] initWithSessionPreset:AVCaptureSessionPreset1280x720 cameraPosition:AVCaptureDevicePositionFront];
+    self.videoCamera = [[GPUImageVideoCamera alloc] initWithSessionPreset:AVCaptureSessionPreset640x480 cameraPosition:AVCaptureDevicePositionFront];
     self.videoCamera.delegate = self;
     self.videoCamera.outputImageOrientation = UIInterfaceOrientationPortrait;
     self.videoCamera.horizontallyMirrorFrontFacingCamera = YES;
-    self.filterView = [[GPUImageView alloc] initWithFrame:self.view.frame];
-    self.filterView.center = self.view.center;
+    self.filterView = [[GPUImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width / 480 * 640)];
+//    self.filterView.center = self.view.center;
     [self.view addSubview:self.filterView];
+    [self.filterView setBackgroundColor:[UIColor whiteColor]];
     
     NSLog(@"self.frame is %@",NSStringFromCGRect(self.view.frame));
     
@@ -71,7 +82,7 @@
     NSURL *movieURL = [NSURL fileURLWithPath:pathToMovie];
     
     // 配置录制信息
-    _movieWriter = [[GPUImageMovieWriter alloc] initWithMovieURL:movieURL size:CGSizeMake(640.0, 480.0)];
+    _movieWriter = [[GPUImageMovieWriter alloc] initWithMovieURL:movieURL size:CGSizeMake(480, 640)];
     self.videoCamera.audioEncodingTarget = _movieWriter;
     _movieWriter.encodingLiveVideo = YES;
     [self.videoCamera startCameraCapture];
@@ -128,6 +139,60 @@
     
     // 最后添加，保证在最上层
     [self.view addSubview:self.viewCanvas];
+    
+    CGFloat buttonWidth = self.view.frame.size.width / 5;
+    CGFloat buttonHeight = self.view.frame.size.width / 480 * 640 + 5;
+    
+    self.firstStyleButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.firstStyleButton.frame = CGRectMake(buttonWidth * 0, buttonHeight, buttonWidth, buttonWidth + 20);
+    [self.firstStyleButton setImage:[UIImage imageNamed:@"elemeIcon"] forState:UIControlStateNormal];
+    self.firstStyleButton.imageEdgeInsets = UIEdgeInsetsMake(buttonWidth/8,buttonWidth/8,buttonWidth/8 + 20,buttonWidth/8);
+    self.firstStyleButton.titleLabel.text = @"广告魔法";
+//    [self.firstStyleButton setTitle:@"广告魔法" forState:UIControlStateNormal];
+    [self.firstStyleButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue" size:9.0f]];
+    [self.firstStyleButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+//    self.firstStyleButton.titleEdgeInsets = UIEdgeInsetsMake(buttonWidth,0,0,0);
+//    [self.firstStyleButton setBackgroundColor:[UIColor yellowColor]];
+    [self.firstStyleButton addTarget:self action:@selector(firstButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.firstStyleButton];
+    
+    self.secondStyleButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.secondStyleButton.frame = CGRectMake(buttonWidth * 1, buttonHeight, buttonWidth, buttonWidth + 20);
+    [self.secondStyleButton setImage:[UIImage imageNamed:@"cocacolaIcon"] forState:UIControlStateNormal];
+    self.secondStyleButton.imageEdgeInsets = UIEdgeInsetsMake(buttonWidth/8,buttonWidth/8,buttonWidth/8 + 20,buttonWidth/8);
+    [self.secondStyleButton setBackgroundColor:[UIColor redColor]];
+    [self.secondStyleButton addTarget:self action:@selector(firstButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.secondStyleButton];
+    
+    self.thirdStyleButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.thirdStyleButton.frame = CGRectMake(buttonWidth * 2, buttonHeight, buttonWidth, buttonWidth + 20);
+    [self.thirdStyleButton setImage:[UIImage imageNamed:@"newYearIcon"] forState:UIControlStateNormal];
+    self.thirdStyleButton.imageEdgeInsets = UIEdgeInsetsMake(buttonWidth/8,buttonWidth/8,buttonWidth/8 + 20,buttonWidth/8);
+    [self.thirdStyleButton setBackgroundColor:[UIColor yellowColor]];
+    [self.thirdStyleButton addTarget:self action:@selector(firstButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.thirdStyleButton];
+    
+    self.fourthStyleButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.fourthStyleButton.frame = CGRectMake(buttonWidth * 3, buttonHeight, buttonWidth, buttonWidth + 20);
+    [self.fourthStyleButton setImage:[UIImage imageNamed:@"earIcon"] forState:UIControlStateNormal];
+    self.fourthStyleButton.imageEdgeInsets = UIEdgeInsetsMake(buttonWidth/8,buttonWidth/8,buttonWidth/8 + 20,buttonWidth/8);
+    [self.fourthStyleButton setBackgroundColor:[UIColor redColor]];
+    [self.fourthStyleButton addTarget:self action:@selector(firstButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.fourthStyleButton];
+    
+    self.fifthStyleButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.fifthStyleButton.frame = CGRectMake(buttonWidth * 4, buttonHeight, buttonWidth, buttonWidth + 20);
+    [self.fifthStyleButton setImage:[UIImage imageNamed:@"seaIcon"] forState:UIControlStateNormal];
+    self.fifthStyleButton.imageEdgeInsets = UIEdgeInsetsMake(buttonWidth/8,buttonWidth/8,buttonWidth/8 + 20,buttonWidth/8);
+    [self.fifthStyleButton setBackgroundColor:[UIColor yellowColor]];
+    [self.fifthStyleButton addTarget:self action:@selector(firstButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.fifthStyleButton];
+    
+    
+}
+
+- (void)firstButtonTapped:(id)sender{
+    NSLog(@"firstButtonTapped");
 }
 
 
