@@ -18,6 +18,7 @@
 		A9863C891E30B90B00909317 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = A9863C821E30B90B00909317 /* logo.png */; };
 		A9863C8A1E30B90B00909317 /* newYearIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = A9863C831E30B90B00909317 /* newYearIcon.png */; };
 		A9863C8B1E30B90B00909317 /* seaIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = A9863C841E30B90B00909317 /* seaIcon.png */; };
+		A9863C921E31C0E300909317 /* strawberryLeft.png in Resources */ = {isa = PBXBuildFile; fileRef = A9863C911E31C0E300909317 /* strawberryLeft.png */; };
 		FD5F06981D1793E100A9E45A /* GPUImageBeautifyFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5F06971D1793E100A9E45A /* GPUImageBeautifyFilter.m */; };
 		FD6BA4521D12CE440080EB2D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FD6BA4501D12CE440080EB2D /* Main.storyboard */; };
 		FD8D74B61E0CB94200D1C8CD /* CanvasView.m in Sources */ = {isa = PBXBuildFile; fileRef = FD8D749A1E0CB94200D1C8CD /* CanvasView.m */; };
@@ -87,6 +88,7 @@
 		A9863C821E30B90B00909317 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		A9863C831E30B90B00909317 /* newYearIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = newYearIcon.png; sourceTree = "<group>"; };
 		A9863C841E30B90B00909317 /* seaIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = seaIcon.png; sourceTree = "<group>"; };
+		A9863C911E31C0E300909317 /* strawberryLeft.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = strawberryLeft.png; sourceTree = "<group>"; };
 		FD5F06961D1793E100A9E45A /* GPUImageBeautifyFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPUImageBeautifyFilter.h; sourceTree = "<group>"; };
 		FD5F06971D1793E100A9E45A /* GPUImageBeautifyFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPUImageBeautifyFilter.m; sourceTree = "<group>"; };
 		FD6BA4511D12CE440080EB2D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -166,6 +168,18 @@
 		A9863C8C1E30B91000909317 /* res */ = {
 			isa = PBXGroup;
 			children = (
+				A9863C911E31C0E300909317 /* strawberryLeft.png */,
+				A9863C931E31C28300909317 /* icons */,
+				A9863C941E31C29800909317 /* newYearStyle */,
+				A98631321E30580700909317 /* noseSingleMeng.png */,
+				FD8D74CB1E0CC1E100D1C8CD /* Crown.png */,
+			);
+			name = res;
+			sourceTree = "<group>";
+		};
+		A9863C931E31C28300909317 /* icons */ = {
+			isa = PBXGroup;
+			children = (
 				A9863C7E1E30B90B00909317 /* cocacolaIcon.png */,
 				A9863C7F1E30B90B00909317 /* earIcon.png */,
 				A9863C801E30B90B00909317 /* elemeIcon.png */,
@@ -173,12 +187,17 @@
 				A9863C821E30B90B00909317 /* logo.png */,
 				A9863C831E30B90B00909317 /* newYearIcon.png */,
 				A9863C841E30B90B00909317 /* seaIcon.png */,
+			);
+			name = icons;
+			sourceTree = "<group>";
+		};
+		A9863C941E31C29800909317 /* newYearStyle */ = {
+			isa = PBXGroup;
+			children = (
 				A9863C781E30933A00909317 /* faceRedTag.png */,
 				A98631341E30658800909317 /* newyearHear.png */,
-				A98631321E30580700909317 /* noseSingleMeng.png */,
-				FD8D74CB1E0CC1E100D1C8CD /* Crown.png */,
 			);
-			name = res;
+			name = newYearStyle;
 			sourceTree = "<group>";
 		};
 		D9659FC4A6DF917D6C94AB64 /* Frameworks */ = {
@@ -449,6 +468,7 @@
 				A9863C881E30B90B00909317 /* icon.png in Resources */,
 				A9863C861E30B90B00909317 /* earIcon.png in Resources */,
 				A9863C891E30B90B00909317 /* logo.png in Resources */,
+				A9863C921E31C0E300909317 /* strawberryLeft.png in Resources */,
 				A98631351E30658800909317 /* newyearHear.png in Resources */,
 				A98631331E30580700909317 /* noseSingleMeng.png in Resources */,
 				FD6BA4521D12CE440080EB2D /* Main.storyboard in Resources */,
@@ -626,7 +646,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = com.video.Bill;
+				PRODUCT_BUNDLE_IDENTIFIER = com.videopls.Bill;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -647,7 +667,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = com.video.Bill;
+				PRODUCT_BUNDLE_IDENTIFIER = com.videopls.Bill;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

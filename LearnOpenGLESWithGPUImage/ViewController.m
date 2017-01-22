@@ -100,14 +100,21 @@
     [_movieWriter startRecording];
     
     // 结束回调
-    __weak typeof (self) weakSelf = self;
-    [beautifyFilter setFrameProcessingCompletionBlock:^(GPUImageOutput *output, CMTime time) {
-//        NSLog(@"update ui");
-        __strong typeof (self) strongSelf = weakSelf;
-        dispatch_async([GPUImageContext sharedContextQueue], ^{
-            [strongSelf.faceView updateWithTimestamp:time];
-        });
-    }];
+    @try {
+        __weak typeof (self) weakSelf = self;
+        [beautifyFilter setFrameProcessingCompletionBlock:^(GPUImageOutput *output, CMTime time) {
+            //        NSLog(@"update ui");
+            __strong typeof (self) strongSelf = weakSelf;
+            dispatch_async([GPUImageContext sharedContextQueue], ^{
+                [strongSelf.faceView updateWithTimestamp:time];
+            });
+        }];
+    } @catch (NSException *exception) {
+        
+    } @finally {
+        
+    }
+    
     
     // 保存到相册
 //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -139,60 +146,20 @@
     
     // 最后添加，保证在最上层
     [self.view addSubview:self.viewCanvas];
-    
-    CGFloat buttonWidth = self.view.frame.size.width / 5;
-    CGFloat buttonHeight = self.view.frame.size.width / 480 * 640 + 5;
-    
-    self.firstStyleButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.firstStyleButton.frame = CGRectMake(buttonWidth * 0, buttonHeight, buttonWidth, buttonWidth + 20);
-    [self.firstStyleButton setImage:[UIImage imageNamed:@"elemeIcon"] forState:UIControlStateNormal];
-    self.firstStyleButton.imageEdgeInsets = UIEdgeInsetsMake(buttonWidth/8,buttonWidth/8,buttonWidth/8 + 20,buttonWidth/8);
-    self.firstStyleButton.titleLabel.text = @"广告魔法";
-//    [self.firstStyleButton setTitle:@"广告魔法" forState:UIControlStateNormal];
-    [self.firstStyleButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue" size:9.0f]];
-    [self.firstStyleButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-//    self.firstStyleButton.titleEdgeInsets = UIEdgeInsetsMake(buttonWidth,0,0,0);
-//    [self.firstStyleButton setBackgroundColor:[UIColor yellowColor]];
-    [self.firstStyleButton addTarget:self action:@selector(firstButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.firstStyleButton];
-    
-    self.secondStyleButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.secondStyleButton.frame = CGRectMake(buttonWidth * 1, buttonHeight, buttonWidth, buttonWidth + 20);
-    [self.secondStyleButton setImage:[UIImage imageNamed:@"cocacolaIcon"] forState:UIControlStateNormal];
-    self.secondStyleButton.imageEdgeInsets = UIEdgeInsetsMake(buttonWidth/8,buttonWidth/8,buttonWidth/8 + 20,buttonWidth/8);
-    [self.secondStyleButton setBackgroundColor:[UIColor redColor]];
-    [self.secondStyleButton addTarget:self action:@selector(firstButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.secondStyleButton];
-    
-    self.thirdStyleButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.thirdStyleButton.frame = CGRectMake(buttonWidth * 2, buttonHeight, buttonWidth, buttonWidth + 20);
-    [self.thirdStyleButton setImage:[UIImage imageNamed:@"newYearIcon"] forState:UIControlStateNormal];
-    self.thirdStyleButton.imageEdgeInsets = UIEdgeInsetsMake(buttonWidth/8,buttonWidth/8,buttonWidth/8 + 20,buttonWidth/8);
-    [self.thirdStyleButton setBackgroundColor:[UIColor yellowColor]];
-    [self.thirdStyleButton addTarget:self action:@selector(firstButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.thirdStyleButton];
-    
-    self.fourthStyleButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.fourthStyleButton.frame = CGRectMake(buttonWidth * 3, buttonHeight, buttonWidth, buttonWidth + 20);
-    [self.fourthStyleButton setImage:[UIImage imageNamed:@"earIcon"] forState:UIControlStateNormal];
-    self.fourthStyleButton.imageEdgeInsets = UIEdgeInsetsMake(buttonWidth/8,buttonWidth/8,buttonWidth/8 + 20,buttonWidth/8);
-    [self.fourthStyleButton setBackgroundColor:[UIColor redColor]];
-    [self.fourthStyleButton addTarget:self action:@selector(firstButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.fourthStyleButton];
-    
-    self.fifthStyleButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.fifthStyleButton.frame = CGRectMake(buttonWidth * 4, buttonHeight, buttonWidth, buttonWidth + 20);
-    [self.fifthStyleButton setImage:[UIImage imageNamed:@"seaIcon"] forState:UIControlStateNormal];
-    self.fifthStyleButton.imageEdgeInsets = UIEdgeInsetsMake(buttonWidth/8,buttonWidth/8,buttonWidth/8 + 20,buttonWidth/8);
-    [self.fifthStyleButton setBackgroundColor:[UIColor yellowColor]];
-    [self.fifthStyleButton addTarget:self action:@selector(firstButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.fifthStyleButton];
-    
-    
+
+    [self configButton];
 }
 
 - (void)firstButtonTapped:(id)sender{
     NSLog(@"firstButtonTapped");
+    @try {
+        self.viewCanvas.noseMap = [UIImage imageNamed:@"strawberryLeft"];
+    } @catch (NSException *exception) {
+        
+    } @finally {
+        
+    }
+    
 }
 
 
@@ -207,7 +174,6 @@
     faceImg.data=nil;
     faceImg=nil;
 }
-
 
 
 /*
@@ -515,6 +481,77 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
+}
+
+- (void)configButton{
+    
+    CGFloat buttonWidth = self.view.frame.size.width / 5;
+    CGFloat buttonHeight = self.view.frame.size.width / 480 * 640 + 5;
+    
+    self.firstStyleButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.firstStyleButton.frame = CGRectMake(buttonWidth * 0, buttonHeight, buttonWidth, buttonWidth + 20);
+    UILabel *firstLabel = [[UILabel alloc] initWithFrame:CGRectMake(buttonWidth/8, buttonWidth, buttonWidth - buttonWidth/4, 20)];
+    [firstLabel setText:@"广告魔法"];
+    [firstLabel setTextColor:[UIColor grayColor]];
+    [firstLabel setTextAlignment:NSTextAlignmentCenter];
+    [firstLabel setFont:[UIFont systemFontOfSize:12.0f]];
+    [self.firstStyleButton addSubview:firstLabel];
+    [self.firstStyleButton setImage:[UIImage imageNamed:@"elemeIcon"] forState:UIControlStateNormal];
+    self.firstStyleButton.imageEdgeInsets = UIEdgeInsetsMake(buttonWidth/8,buttonWidth/8,buttonWidth/8 + 20,buttonWidth/8);
+    [self.firstStyleButton addTarget:self action:@selector(firstButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.firstStyleButton];
+    
+    self.secondStyleButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.secondStyleButton.frame = CGRectMake(buttonWidth * 1, buttonHeight, buttonWidth, buttonWidth + 20);
+    [self.secondStyleButton setImage:[UIImage imageNamed:@"cocacolaIcon"] forState:UIControlStateNormal];
+    self.secondStyleButton.imageEdgeInsets = UIEdgeInsetsMake(buttonWidth/8,buttonWidth/8,buttonWidth/8 + 20,buttonWidth/8);
+    UILabel *secondLabel = [[UILabel alloc] initWithFrame:CGRectMake(buttonWidth/8, buttonWidth, buttonWidth - buttonWidth/4, 20)];
+    [secondLabel setText:@"品牌魔法"];
+    [secondLabel setTextColor:[UIColor grayColor]];
+    [secondLabel setTextAlignment:NSTextAlignmentCenter];
+    [secondLabel setFont:[UIFont systemFontOfSize:12.0f]];
+    [self.secondStyleButton addSubview:secondLabel];
+    [self.secondStyleButton addTarget:self action:@selector(firstButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.secondStyleButton];
+    
+    self.thirdStyleButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.thirdStyleButton.frame = CGRectMake(buttonWidth * 2, buttonHeight, buttonWidth, buttonWidth + 20);
+    [self.thirdStyleButton setImage:[UIImage imageNamed:@"newYearIcon"] forState:UIControlStateNormal];
+    self.thirdStyleButton.imageEdgeInsets = UIEdgeInsetsMake(buttonWidth/8,buttonWidth/8,buttonWidth/8 + 20,buttonWidth/8);
+    UILabel *thirdLabel = [[UILabel alloc] initWithFrame:CGRectMake(buttonWidth/8, buttonWidth, buttonWidth - buttonWidth/4, 20)];
+    [thirdLabel setText:@"新年魔法"];
+    [thirdLabel setTextColor:[UIColor grayColor]];
+    [thirdLabel setTextAlignment:NSTextAlignmentCenter];
+    [thirdLabel setFont:[UIFont systemFontOfSize:12.0f]];
+    [self.thirdStyleButton addSubview:thirdLabel];
+    [self.thirdStyleButton addTarget:self action:@selector(firstButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.thirdStyleButton];
+    
+    self.fourthStyleButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.fourthStyleButton.frame = CGRectMake(buttonWidth * 3, buttonHeight, buttonWidth, buttonWidth + 20);
+    [self.fourthStyleButton setImage:[UIImage imageNamed:@"earIcon"] forState:UIControlStateNormal];
+    self.fourthStyleButton.imageEdgeInsets = UIEdgeInsetsMake(buttonWidth/8,buttonWidth/8,buttonWidth/8 + 20,buttonWidth/8);
+    UILabel *fourthLabel = [[UILabel alloc] initWithFrame:CGRectMake(buttonWidth/8, buttonWidth, buttonWidth - buttonWidth/4, 20)];
+    [fourthLabel setText:@"趣味魔法"];
+    [fourthLabel setTextColor:[UIColor grayColor]];
+    [fourthLabel setTextAlignment:NSTextAlignmentCenter];
+    [fourthLabel setFont:[UIFont systemFontOfSize:12.0f]];
+    [self.fourthStyleButton addSubview:fourthLabel];
+    [self.fourthStyleButton addTarget:self action:@selector(firstButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.fourthStyleButton];
+    
+    self.fifthStyleButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.fifthStyleButton.frame = CGRectMake(buttonWidth * 4, buttonHeight, buttonWidth, buttonWidth + 20);
+    [self.fifthStyleButton setImage:[UIImage imageNamed:@"seaIcon"] forState:UIControlStateNormal];
+    self.fifthStyleButton.imageEdgeInsets = UIEdgeInsetsMake(buttonWidth/8,buttonWidth/8,buttonWidth/8 + 20,buttonWidth/8);
+    UILabel *fifthLabel = [[UILabel alloc] initWithFrame:CGRectMake(buttonWidth/8, buttonWidth, buttonWidth - buttonWidth/4, 20)];
+    [fifthLabel setText:@"少女魔法"];
+    [fifthLabel setTextColor:[UIColor grayColor]];
+    [fifthLabel setTextAlignment:NSTextAlignmentCenter];
+    [fifthLabel setFont:[UIFont systemFontOfSize:12.0f]];
+    [self.fifthStyleButton addSubview:fifthLabel];
+    [self.fifthStyleButton addTarget:self action:@selector(firstButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.fifthStyleButton];
 }
 
 @end
