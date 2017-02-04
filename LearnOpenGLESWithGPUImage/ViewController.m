@@ -54,7 +54,8 @@
     self.viewCanvas = [[CanvasView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width / 480 * 640)];
     self.viewCanvas.backgroundColor = [UIColor clearColor];
     self.viewCanvas.headMap = [UIImage imageNamed:@"newyearHear"];
-    self.viewCanvas.noseMap = [UIImage imageNamed:@"noseSingleMeng"];
+    self.viewCanvas.allbackgroundMap = [UIImage imageNamed:@"newyearBack"];
+//    self.viewCanvas.noseMap = [UIImage imageNamed:@"noseSingleMeng"];
     self.faceDetector = [IFlyFaceDetector sharedInstance];
     if(self.faceDetector){
         [self.faceDetector setParameter:@"1" forKey:@"detect"];
@@ -150,24 +151,13 @@
     [self configButton];
 }
 
-- (void)firstButtonTapped:(id)sender{
-    NSLog(@"firstButtonTapped");
-    @try {
-        self.viewCanvas.noseMap = [UIImage imageNamed:@"strawberryLeft"];
-    } @catch (NSException *exception) {
-        
-    } @finally {
-        
-    }
-    
-}
-
-
 
 -(void) willOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer {
     IFlyFaceImage* faceImg=[self faceImageFromSampleBuffer:sampleBuffer];
     //识别结果，json数据
     NSString* strResult=[self.faceDetector trackFrame:faceImg.data withWidth:faceImg.width height:faceImg.height direction:(int)faceImg.direction];
+    
+//    NSLog(@"strResult is %ld",faceImg.direction);
     
     [self praseTrackResult:strResult OrignImage:faceImg];
     //此处清理图片数据，以防止因为不必要的图片数据的反复传递造成的内存卷积占用
@@ -212,6 +202,8 @@
         
         //检测到人脸
         NSMutableArray *arrPersons = [NSMutableArray array] ;
+        
+//        NSLog(@"result is %@",result);
         
         for(id faceInArr in faceArray){
             
@@ -366,6 +358,7 @@
 
 
 - (IFlyFaceImage *) faceImageFromSampleBuffer:(CMSampleBufferRef) sampleBuffer{
+    
     //获取灰度图像数据
     CVPixelBufferRef pixelBuffer = (CVPixelBufferRef)CMSampleBufferGetImageBuffer(sampleBuffer);
     CVPixelBufferLockBaseAddress(pixelBuffer, 0);
@@ -483,6 +476,8 @@
     [super didReceiveMemoryWarning];
 }
 
+#pragma mark -- config button usage
+
 - (void)configButton{
     
     CGFloat buttonWidth = self.view.frame.size.width / 5;
@@ -498,7 +493,8 @@
     [self.firstStyleButton addSubview:firstLabel];
     [self.firstStyleButton setImage:[UIImage imageNamed:@"elemeIcon"] forState:UIControlStateNormal];
     self.firstStyleButton.imageEdgeInsets = UIEdgeInsetsMake(buttonWidth/8,buttonWidth/8,buttonWidth/8 + 20,buttonWidth/8);
-    [self.firstStyleButton addTarget:self action:@selector(firstButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    self.firstStyleButton.tag = 100;
+    [self.firstStyleButton addTarget:self action:@selector(styleButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.firstStyleButton];
     
     self.secondStyleButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -511,7 +507,8 @@
     [secondLabel setTextAlignment:NSTextAlignmentCenter];
     [secondLabel setFont:[UIFont systemFontOfSize:12.0f]];
     [self.secondStyleButton addSubview:secondLabel];
-    [self.secondStyleButton addTarget:self action:@selector(firstButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    self.secondStyleButton.tag = 101;
+    [self.secondStyleButton addTarget:self action:@selector(styleButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.secondStyleButton];
     
     self.thirdStyleButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -524,7 +521,8 @@
     [thirdLabel setTextAlignment:NSTextAlignmentCenter];
     [thirdLabel setFont:[UIFont systemFontOfSize:12.0f]];
     [self.thirdStyleButton addSubview:thirdLabel];
-    [self.thirdStyleButton addTarget:self action:@selector(firstButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    self.thirdStyleButton.tag = 102;
+    [self.thirdStyleButton addTarget:self action:@selector(styleButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.thirdStyleButton];
     
     self.fourthStyleButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -537,7 +535,8 @@
     [fourthLabel setTextAlignment:NSTextAlignmentCenter];
     [fourthLabel setFont:[UIFont systemFontOfSize:12.0f]];
     [self.fourthStyleButton addSubview:fourthLabel];
-    [self.fourthStyleButton addTarget:self action:@selector(firstButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    self.fourthStyleButton.tag = 103;
+    [self.fourthStyleButton addTarget:self action:@selector(styleButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.fourthStyleButton];
     
     self.fifthStyleButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -550,8 +549,64 @@
     [fifthLabel setTextAlignment:NSTextAlignmentCenter];
     [fifthLabel setFont:[UIFont systemFontOfSize:12.0f]];
     [self.fifthStyleButton addSubview:fifthLabel];
-    [self.fifthStyleButton addTarget:self action:@selector(firstButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    self.fifthStyleButton.tag = 104;
+    [self.fifthStyleButton addTarget:self action:@selector(styleButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.fifthStyleButton];
+}
+
+
+- (void)styleButtonTapped:(UIButton *)sender{
+    NSLog(@"styleButtonTapped");
+    [self configAllViewTransparent];
+    @try {
+        switch (sender.tag) {
+            case 100:
+                self.viewCanvas.backgroundMap = [UIImage imageNamed:@"eleme-bg"];
+                self.viewCanvas.leftEarMap = [UIImage imageNamed:@"elemeLeftEar"];
+                self.viewCanvas.rightEarMap = [UIImage imageNamed:@"elemeRightEar"];
+                break;
+            case 101:
+                self.viewCanvas.leftEarMap = [UIImage imageNamed:@"cococolaLeftEar"];
+                self.viewCanvas.rightEarMap = [UIImage imageNamed:@"cococolaRightEar"];
+                self.viewCanvas.backgroundMap = [UIImage imageNamed:@"cococolaBg"];
+                break;
+            case 102:
+                self.viewCanvas.headMap = [UIImage imageNamed:@"newyearHear"];
+                self.viewCanvas.allbackgroundMap = [UIImage imageNamed:@"newyearBack"];
+                break;
+            case 103:
+                self.viewCanvas.leftEarMap = [UIImage imageNamed:@"leftEarMeng"];
+                self.viewCanvas.rightEarMap = [UIImage imageNamed:@"rightEarMeng"];
+                self.viewCanvas.noseMap = [UIImage imageNamed:@"strawberryLeft"];
+                break;
+            case 104:
+                self.viewCanvas.backgroundMap = [UIImage imageNamed:@"seaback"];
+                self.viewCanvas.facialTextureMap = [UIImage imageNamed:@"seaface"];
+                self.viewCanvas.bodyMap = [UIImage imageNamed:@"seabody"];
+//                self.viewCanvas.noseMap = [UIImage imageNamed:@"noseSingleMeng"];
+                break;
+            default:
+                break;
+        }
+    } @catch (NSException *exception) {
+        
+    } @finally {
+        
+    }
+    
+}
+
+- (void)configAllViewTransparent{
+    self.viewCanvas.noseMap = [UIImage imageNamed:@"transparentBack"];
+    self.viewCanvas.headMap = [UIImage imageNamed:@"transparentBack"];
+    self.viewCanvas.eyesMap = [UIImage imageNamed:@"transparentBack"];
+    self.viewCanvas.bodyMap = [UIImage imageNamed:@"transparentBack"];
+    self.viewCanvas.mouthMap = [UIImage imageNamed:@"transparentBack"];
+    self.viewCanvas.leftEarMap = [UIImage imageNamed:@"transparentBack"];
+    self.viewCanvas.rightEarMap = [UIImage imageNamed:@"transparentBack"];
+    self.viewCanvas.backgroundMap = [UIImage imageNamed:@"transparentBack"];
+    self.viewCanvas.allbackgroundMap = [UIImage imageNamed:@"transparentBack"];
+    self.viewCanvas.facialTextureMap = [UIImage imageNamed:@"transparentBack"];
 }
 
 @end
