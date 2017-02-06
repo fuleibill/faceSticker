@@ -237,6 +237,13 @@
 			name = eleme;
 			sourceTree = "<group>";
 		};
+		A976BD261E4861C5001E7A00 /* rtmpService */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = rtmpService;
+			sourceTree = "<group>";
+		};
 		A9863C6A1E308DC500909317 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -409,6 +416,7 @@
 				FD5F06961D1793E100A9E45A /* GPUImageBeautifyFilter.h */,
 				FD5F06971D1793E100A9E45A /* GPUImageBeautifyFilter.m */,
 				FD6BA4501D12CE440080EB2D /* Main.storyboard */,
+				A976BD261E4861C5001E7A00 /* rtmpService */,
 				FDAAD2541CE1CD7A00C7B6AC /* AppDelegate.h */,
 				FDAAD2551CE1CD7A00C7B6AC /* AppDelegate.m */,
 				FDAAD2571CE1CD7A00C7B6AC /* ViewController.h */,
@@ -750,7 +758,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = com.videopls.Bill;
+				PRODUCT_BUNDLE_IDENTIFIER = com.video.Bill;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -771,7 +779,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = com.videopls.Bill;
+				PRODUCT_BUNDLE_IDENTIFIER = com.video.Bill;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

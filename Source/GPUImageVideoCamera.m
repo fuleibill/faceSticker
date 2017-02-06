@@ -890,6 +890,7 @@ void setColorConversion709( GLfloat conversionMatrix[9] )
             //Feature Detection Hook.
             if (self.delegate)
             {
+//                NSLog(@"1111");
                 [self.delegate willOutputSampleBuffer:sampleBuffer];
             }
             

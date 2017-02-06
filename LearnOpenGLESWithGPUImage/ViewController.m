@@ -22,7 +22,7 @@
 @property (nonatomic , strong) GPUImageMovieWriter *movieWriter;
 @property (nonatomic , strong) GPUImageUIElement *faceView;
 @property (nonatomic, strong) GPUImageView *filterView;
-@property (nonatomic , strong) GPUImageAddBlendFilter *blendFilter;
+@property (nonatomic , strong) GPUImageAlphaBlendFilter *blendFilter;
 /**
  人脸识别
  */
@@ -34,11 +34,6 @@
 @property (nonatomic) CMMotionManager *motionManager;
 @property (nonatomic) UIInterfaceOrientation interfaceOrientation;
 
-@property (nonatomic) UIButton *firstStyleButton;
-@property (nonatomic) UIButton *secondStyleButton;
-@property (nonatomic) UIButton *thirdStyleButton;
-@property (nonatomic) UIButton *fourthStyleButton;
-@property (nonatomic) UIButton *fifthStyleButton;
 
 @end
 
@@ -65,40 +60,40 @@
 //    [self.viewCanvas setBackgroundColor:[UIColor whiteColor]];
     
     // 滤镜初始化
-    self.faceView = [[GPUImageUIElement alloc] initWithView:self.viewCanvas];
+//    self.faceView = [[GPUImageUIElement alloc] initWithView:self.viewCanvas];
     self.videoCamera = [[GPUImageVideoCamera alloc] initWithSessionPreset:AVCaptureSessionPreset640x480 cameraPosition:AVCaptureDevicePositionFront];
     self.videoCamera.delegate = self;
     self.videoCamera.outputImageOrientation = UIInterfaceOrientationPortrait;
     self.videoCamera.horizontallyMirrorFrontFacingCamera = YES;
     self.filterView = [[GPUImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width / 480 * 640)];
-//    self.filterView.center = self.view.center;
     [self.view addSubview:self.filterView];
-    [self.filterView setBackgroundColor:[UIColor whiteColor]];
+    [self.filterView setBackgroundColor:[UIColor clearColor]];
     
     NSLog(@"self.frame is %@",NSStringFromCGRect(self.view.frame));
     
     // 录像文件
-    NSString *pathToMovie = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/Movie.m4v"];
-    unlink([pathToMovie UTF8String]);
-    NSURL *movieURL = [NSURL fileURLWithPath:pathToMovie];
+//    NSString *pathToMovie = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/Movie.m4v"];
+//    unlink([pathToMovie UTF8String]);
+//    NSURL *movieURL = [NSURL fileURLWithPath:pathToMovie];
     
     // 配置录制信息
-    _movieWriter = [[GPUImageMovieWriter alloc] initWithMovieURL:movieURL size:CGSizeMake(480, 640)];
-    self.videoCamera.audioEncodingTarget = _movieWriter;
-    _movieWriter.encodingLiveVideo = YES;
+//    _movieWriter = [[GPUImageMovieWriter alloc] initWithMovieURL:movieURL size:CGSizeMake(480, 640)];
+//    self.videoCamera.audioEncodingTarget = _movieWriter;
+//    _movieWriter.encodingLiveVideo = YES;
     [self.videoCamera startCameraCapture];
     
     // 响应链配置
     GPUImageBeautifyFilter *beautifyFilter = [[GPUImageBeautifyFilter alloc] init];
     [self.videoCamera addTarget:beautifyFilter];
-    self.blendFilter = [[GPUImageAddBlendFilter alloc] init];
+    self.blendFilter = [[GPUImageAlphaBlendFilter alloc] init];
+    self.blendFilter.mix = 1.0f;
     [beautifyFilter addTarget:self.blendFilter];
     [self.faceView addTarget:self.blendFilter];
     [beautifyFilter addTarget:self.filterView];
-    [self.blendFilter addTarget:_movieWriter];
+//    [self.blendFilter addTarget:_movieWriter];
     
     // 开始录制
-    [_movieWriter startRecording];
+//    [_movieWriter startRecording];
     
     // 结束回调
     @try {
@@ -151,8 +146,10 @@
     [self configButton];
 }
 
-
+#pragma mark -- CMSampleBufferRef获取method
 -(void) willOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer {
+    
+//    NSLog(@"2222");
     IFlyFaceImage* faceImg=[self faceImageFromSampleBuffer:sampleBuffer];
     //识别结果，json数据
     NSString* strResult=[self.faceDetector trackFrame:faceImg.data withWidth:faceImg.width height:faceImg.height direction:(int)faceImg.direction];
@@ -552,6 +549,19 @@
     self.fifthStyleButton.tag = 104;
     [self.fifthStyleButton addTarget:self action:@selector(styleButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.fifthStyleButton];
+    
+    self.videoSaveButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.videoSaveButton.frame = CGRectMake(buttonWidth * 1, buttonHeight + buttonWidth + 25 , buttonWidth, buttonWidth/3);
+    UILabel *videoSaveLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,0,buttonWidth,buttonWidth/2)];
+    [videoSaveLabel setText:@"Save"];
+    [videoSaveLabel setTextColor:[UIColor grayColor]];
+    [videoSaveLabel setTextAlignment:NSTextAlignmentCenter];
+    [videoSaveLabel setFont:[UIFont systemFontOfSize:12.0f]];
+    [self.videoSaveButton setBackgroundColor:[UIColor lightGrayColor]];
+    [self.videoSaveButton addSubview:videoSaveLabel];
+    self.videoSaveButton.tag = 105;
+    [self.videoSaveButton addTarget:self action:@selector(styleButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.videoSaveButton];
 }
 
 
@@ -584,6 +594,9 @@
                 self.viewCanvas.facialTextureMap = [UIImage imageNamed:@"seaface"];
                 self.viewCanvas.bodyMap = [UIImage imageNamed:@"seabody"];
 //                self.viewCanvas.noseMap = [UIImage imageNamed:@"noseSingleMeng"];
+                break;
+            case 105:
+                
                 break;
             default:
                 break;
