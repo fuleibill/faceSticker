@@ -23,7 +23,7 @@
     [IFlySetting setLogFile:LVL_ALL];
     
     //输出在console的log开关
-    [IFlySetting showLogcat:NO];
+    [IFlySetting showLogcat:YES];
     
     NSArray * paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString * cachePath = [paths objectAtIndex:0];

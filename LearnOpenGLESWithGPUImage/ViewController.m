@@ -2,8 +2,8 @@
 //  ViewController.m
 //  LearnOpenGLESWithGPUImage
 //
-//  Created by 林伟池 on 16/5/10.
-//  Copyright © 2016年 林伟池. All rights reserved.
+//  Created by Bill on 17/2/5.
+//  Copyright © 2016年 Bill. All rights reserved.
 //
 
 #import "ViewController.h"
@@ -16,10 +16,16 @@
 #import "CanvasView.h"
 #import "IFlyFaceResultKeys.h"
 #import "CalculatorTools.h"
+#import "MSAudioEncoder.h"
+#import "MSH264Encoder.h"
+#import "MSRtmpService.h"
+
+
 
 @interface ViewController () <GPUImageVideoCameraDelegate>
 @property (nonatomic, strong) GPUImageVideoCamera *videoCamera;
-@property (nonatomic , strong) GPUImageMovieWriter *movieWriter;
+//@property (nonatomic , strong) MSGPUImageMovieWriter *movieWriter;
+//@property (nonatomic , strong) GPUImageMovieWriter *movieWriter;
 @property (nonatomic , strong) GPUImageUIElement *faceView;
 @property (nonatomic, strong) GPUImageView *filterView;
 @property (nonatomic , strong) GPUImageAlphaBlendFilter *blendFilter;
@@ -34,6 +40,13 @@
 @property (nonatomic) CMMotionManager *motionManager;
 @property (nonatomic) UIInterfaceOrientation interfaceOrientation;
 
+@property (nonatomic) GPUImageBeautifyFilter *beautifyFilter;
+
+/**
+ Movie Encoder
+*/
+@property(nonatomic, retain) MSH264Encoder* videoEncoder;
+@property(nonatomic, retain) MSAudioEncoder* audioEncoder;
 
 @end
 
@@ -41,6 +54,7 @@
 @implementation ViewController{
 }
 
+@synthesize beautifyFilter;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -50,17 +64,20 @@
     self.viewCanvas.backgroundColor = [UIColor clearColor];
     self.viewCanvas.headMap = [UIImage imageNamed:@"newyearHear"];
     self.viewCanvas.allbackgroundMap = [UIImage imageNamed:@"newyearBack"];
-//    self.viewCanvas.noseMap = [UIImage imageNamed:@"noseSingleMeng"];
     self.faceDetector = [IFlyFaceDetector sharedInstance];
+    
     if(self.faceDetector){
         [self.faceDetector setParameter:@"1" forKey:@"detect"];
         [self.faceDetector setParameter:@"1" forKey:@"align"];
     }
     
+//    NSString* strEnable=[NSString stringWithFormat:@"%@",[sender isOn]?@"1":@"0"] ;
+    [self.faceDetector setParameter:@"1" forKey:@"align"];
+    
 //    [self.viewCanvas setBackgroundColor:[UIColor whiteColor]];
     
     // 滤镜初始化
-//    self.faceView = [[GPUImageUIElement alloc] initWithView:self.viewCanvas];
+    self.faceView = [[GPUImageUIElement alloc] initWithView:self.viewCanvas];
     self.videoCamera = [[GPUImageVideoCamera alloc] initWithSessionPreset:AVCaptureSessionPreset640x480 cameraPosition:AVCaptureDevicePositionFront];
     self.videoCamera.delegate = self;
     self.videoCamera.outputImageOrientation = UIInterfaceOrientationPortrait;
@@ -69,31 +86,19 @@
     [self.view addSubview:self.filterView];
     [self.filterView setBackgroundColor:[UIColor clearColor]];
     
-    NSLog(@"self.frame is %@",NSStringFromCGRect(self.view.frame));
+//    NSLog(@"self.frame is %@",NSStringFromCGRect(self.view.frame));
     
-    // 录像文件
-//    NSString *pathToMovie = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/Movie.m4v"];
-//    unlink([pathToMovie UTF8String]);
-//    NSURL *movieURL = [NSURL fileURLWithPath:pathToMovie];
-    
-    // 配置录制信息
-//    _movieWriter = [[GPUImageMovieWriter alloc] initWithMovieURL:movieURL size:CGSizeMake(480, 640)];
-//    self.videoCamera.audioEncodingTarget = _movieWriter;
-//    _movieWriter.encodingLiveVideo = YES;
-    [self.videoCamera startCameraCapture];
-    
+
     // 响应链配置
-    GPUImageBeautifyFilter *beautifyFilter = [[GPUImageBeautifyFilter alloc] init];
+    beautifyFilter = [[GPUImageBeautifyFilter alloc] init];
     [self.videoCamera addTarget:beautifyFilter];
     self.blendFilter = [[GPUImageAlphaBlendFilter alloc] init];
     self.blendFilter.mix = 1.0f;
     [beautifyFilter addTarget:self.blendFilter];
     [self.faceView addTarget:self.blendFilter];
     [beautifyFilter addTarget:self.filterView];
-//    [self.blendFilter addTarget:_movieWriter];
     
-    // 开始录制
-//    [_movieWriter startRecording];
+    [self.videoCamera startCameraCapture];
     
     // 结束回调
     @try {
@@ -110,36 +115,7 @@
     } @finally {
         
     }
-    
-    
-    // 保存到相册
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        [beautifyFilter removeTarget:_movieWriter];
-//        [_movieWriter finishRecording];
-//        ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
-//        if (UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(pathToMovie))
-//        {
-//            [library writeVideoAtPathToSavedPhotosAlbum:movieURL completionBlock:^(NSURL *assetURL, NSError *error)
-//             {
-//                 dispatch_async(dispatch_get_main_queue(), ^{
-//                     
-//                     if (error) {
-//                         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"视频保存失败" message:nil
-//                                                                        delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-//                         [alert show];
-//                     } else {
-//                         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"视频保存成功" message:nil
-//                                                                        delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-//                         [alert show];
-//                     }
-//                 });
-//             }];
-//        }
-//        else {
-//            NSLog(@"error mssg)");
-//        }
-//    });
-    
+
     // 最后添加，保证在最上层
     [self.view addSubview:self.viewCanvas];
 
@@ -148,6 +124,9 @@
 
 #pragma mark -- CMSampleBufferRef获取method
 -(void) willOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer {
+    
+//    [self movieAudioBuffer:sampleBuffer];
+    [self movieVideoBuffer:sampleBuffer];
     
 //    NSLog(@"2222");
     IFlyFaceImage* faceImg=[self faceImageFromSampleBuffer:sampleBuffer];
@@ -161,7 +140,6 @@
     faceImg.data=nil;
     faceImg=nil;
 }
-
 
 /*
  人脸识别
@@ -199,9 +177,7 @@
         
         //检测到人脸
         NSMutableArray *arrPersons = [NSMutableArray array] ;
-        
-//        NSLog(@"result is %@",result);
-        
+
         for(id faceInArr in faceArray){
             
             if(faceInArr && [faceInArr isKindOfClass:[NSDictionary class]]){
@@ -298,7 +274,6 @@
         self.viewCanvas.hidden = NO ;
     }
     self.viewCanvas.arrPersons = arrPersons ;
-//    NSLog(@"update arr");
     [self.viewCanvas setNeedsDisplay];
 }
 
@@ -473,6 +448,31 @@
     [super didReceiveMemoryWarning];
 }
 
+
+#pragma mark - MSGPUImageMovieWriter Delegate
+
+- (void)movieAudioBuffer:(CMSampleBufferRef)buffer
+{
+    [self.audioEncoder encodeSampleBuffer:buffer];
+}
+
+- (void)movieVideoBuffer:(CMSampleBufferRef)buffer
+{
+//    [self.videoEncoder encodeSampleBuffer:buffer];
+//    [self.videoEncoder encodeSampleBuffer:(__bridge CMSampleBufferRef)(movieWriter)];
+}
+
+- (void)movieVideoPixelBuffer:(CVPixelBufferRef)buffer
+{
+    NSLog(@"1222ff");
+    [self.videoEncoder encodePixelBuffer:buffer];
+}
+
+- (void)processMagicStickerSampleBuffer:(CMSampleBufferRef)buffer {
+
+}
+
+
 #pragma mark -- config button usage
 
 - (void)configButton{
@@ -550,23 +550,34 @@
     [self.fifthStyleButton addTarget:self action:@selector(styleButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.fifthStyleButton];
     
+    self.rtmpButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.rtmpButton.frame = CGRectMake(buttonWidth * 2, buttonHeight + buttonWidth + 30 , buttonWidth, buttonWidth/3);
+    UILabel *rtmpLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,0,buttonWidth,buttonWidth/2)];
+    [rtmpLabel setText:@"Live"];
+    [rtmpLabel setTextColor:[UIColor grayColor]];
+    [rtmpLabel setTextAlignment:NSTextAlignmentCenter];
+    [rtmpLabel setFont:[UIFont systemFontOfSize:12.0f]];
+    [self.rtmpButton addSubview:rtmpLabel];
+    self.rtmpButton.tag = 105;
+    [self.rtmpButton addTarget:self action:@selector(rtmpButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+//    [self.view addSubview:self.rtmpButton];
+    
     self.videoSaveButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.videoSaveButton.frame = CGRectMake(buttonWidth * 1, buttonHeight + buttonWidth + 25 , buttonWidth, buttonWidth/3);
+    self.videoSaveButton.frame = CGRectMake(buttonWidth * 1, buttonHeight + buttonWidth + 30 , buttonWidth, buttonWidth/3);
     UILabel *videoSaveLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,0,buttonWidth,buttonWidth/2)];
     [videoSaveLabel setText:@"Save"];
     [videoSaveLabel setTextColor:[UIColor grayColor]];
     [videoSaveLabel setTextAlignment:NSTextAlignmentCenter];
     [videoSaveLabel setFont:[UIFont systemFontOfSize:12.0f]];
-    [self.videoSaveButton setBackgroundColor:[UIColor lightGrayColor]];
     [self.videoSaveButton addSubview:videoSaveLabel];
-    self.videoSaveButton.tag = 105;
-    [self.videoSaveButton addTarget:self action:@selector(styleButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.videoSaveButton];
+    self.videoSaveButton.tag = 106;
+    [self.videoSaveButton addTarget:self action:@selector(saveButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+//    [self.view addSubview:self.videoSaveButton];
 }
 
 
 - (void)styleButtonTapped:(UIButton *)sender{
-    NSLog(@"styleButtonTapped");
+    
     [self configAllViewTransparent];
     @try {
         switch (sender.tag) {
@@ -593,7 +604,6 @@
                 self.viewCanvas.backgroundMap = [UIImage imageNamed:@"seaback"];
                 self.viewCanvas.facialTextureMap = [UIImage imageNamed:@"seaface"];
                 self.viewCanvas.bodyMap = [UIImage imageNamed:@"seabody"];
-//                self.viewCanvas.noseMap = [UIImage imageNamed:@"noseSingleMeng"];
                 break;
             case 105:
                 
@@ -606,7 +616,108 @@
     } @finally {
         
     }
+}
+
+- (void)rtmpButtonTapped:(UIButton *)sender{
     
+    // 配置录制信息
+    movieWriter = [[MSGPUImageMovieWriter alloc] initWithSize:CGSizeMake(480, 640)];
+    movieWriter.delegate = self;
+    
+    // 开始录制
+    [movieWriter startRecording];
+    
+//    [self.blendFilter addTarget:movieWriter];
+    
+    [self.videoCamera setDelegate:movieWriter];
+    [self.videoCamera setAudioEncodingTarget:(MSGPUImageMovieWriter *)movieWriter];
+    
+    char byteAACHeader[] = {0x12, 0x8};
+    //    rtmp://ps10.live.5kong.tv/live_5kong/1b1ad0830e973d75d2453bb83b307786?sign=1a7742534e270819088d32c5979e054a&tm=20160824191915&domain=ps10.live.5kong.tv
+    [[MSRtmpService sharedInstance] createRtmp:@"rtmp://video-center.alivecdn.com/hengdapme" key:@"587d833bedf34d0032f62062?vhost=hd-rtmp.videojj.com&auth_key=1486448274-0-0-52f2a1842fb8052b2e6a58b3894c1364"];
+    [[MSRtmpService sharedInstance] setAudioBps:64000/1000
+                                       channels:1
+                                     sampleSize:16
+                                     sampleRate:44100/1000
+                                      aacHeader:byteAACHeader
+                                  aacHeaderSize:2];
+    
+    self.audioEncoder = [[MSAudioEncoder alloc] initWithBitrate:64000
+                                                     sampleRate:44100
+                                                       channels:1
+                                                    onDataReady:^(void *buffer, int32_t bufferLen)
+                         {
+                             [[MSRtmpService sharedInstance] pushAudioData:buffer size:bufferLen];
+                         }];
+    
+    self.videoEncoder = [[MSH264Encoder alloc] initWithWidth:720
+                                                      height:1280
+                                            keyFrameInterval:3
+                                                     bitrate:1000000
+                                                         fps:20
+                                               onSPSPPSReady:^(char *spspps, int spsppsSize)
+                         {
+                             [[MSRtmpService sharedInstance] setVideoWidth:720
+                                                                    height:1280
+                                                                       fps:20
+                                                                       bps:1000000
+                                                                    spspps:spspps
+                                                                spsppsSize:spsppsSize];
+                         }
+                                                 onDataReady:^(void *buffer, int32_t bufferLen, uint64_t timestamp, BOOL isKeyFrame)
+                         {
+                             [[MSRtmpService sharedInstance] pushVideoPts:timestamp
+                                                                     data:buffer
+                                                                     size:bufferLen
+                                                               isKeyFrame:isKeyFrame];
+                         }];
+}
+
+- (void)saveButtonTapped:(UIButton *)sender{
+    
+    // 录像文件
+    NSString *pathToMovie = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/Movie.m4v"];
+    unlink([pathToMovie UTF8String]);
+    NSURL *movieURL = [NSURL fileURLWithPath:pathToMovie];
+    
+    // 配置录制信息
+    movieWriter = [[MSGPUImageMovieWriter alloc] initWithMovieURL:movieURL size:CGSizeMake(480, 640)];
+    movieWriter.delegate = self;
+    
+//    movieWriter.encodingLiveVideo = YES;
+    
+    [self.blendFilter addTarget:movieWriter];
+    
+    
+    
+    
+    // 保存到相册
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        [beautifyFilter removeTarget:movieWriter];
+//        [movieWriter finishRecording];
+//        ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
+//        if (UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(pathToMovie))
+//        {
+//            [library writeVideoAtPathToSavedPhotosAlbum:movieURL completionBlock:^(NSURL *assetURL, NSError *error)
+//             {
+//                 dispatch_async(dispatch_get_main_queue(), ^{
+//
+//                     if (error) {
+//                         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"视频保存失败" message:nil
+//                                                                        delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+//                         [alert show];
+//                     } else {
+//                         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"视频保存成功" message:nil
+//                                                                        delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+//                         [alert show];
+//                     }
+//                 });
+//             }];
+//        }
+//        else {
+//            NSLog(@"error mssg)");
+//        }
+//    });
 }
 
 - (void)configAllViewTransparent{

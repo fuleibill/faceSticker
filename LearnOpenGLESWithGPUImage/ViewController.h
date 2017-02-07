@@ -2,13 +2,19 @@
 //  ViewController.h
 //  LearnOpenGLESWithGPUImage
 //
-//  Created by 林伟池 on 16/5/10.
-//  Copyright © 2016年 林伟池. All rights reserved.
+//  Created by Bill on 17/2/5.
+//  Copyright © 2016年 Bill. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
+#import "GPUImage.h"
+#import "MSGPUImageMovieWriter.h"
 
-@interface ViewController : UIViewController
+@interface ViewController : UIViewController <MSGPUImageMovieWriterDelegate>
+{
+    MSGPUImageMovieWriter *movieWriter;
+//    GPUImageMovieWriter *movieWriter;
+}
 
 @property (nonatomic) UIButton *firstStyleButton;
 @property (nonatomic) UIButton *secondStyleButton;
