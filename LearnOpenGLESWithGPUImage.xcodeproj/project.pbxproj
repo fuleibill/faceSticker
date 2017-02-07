@@ -58,6 +58,7 @@
 		A9863C8A1E30B90B00909317 /* newYearIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = A9863C831E30B90B00909317 /* newYearIcon.png */; };
 		A9863C8B1E30B90B00909317 /* seaIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = A9863C841E30B90B00909317 /* seaIcon.png */; };
 		A9863C921E31C0E300909317 /* strawberryLeft.png in Resources */ = {isa = PBXBuildFile; fileRef = A9863C911E31C0E300909317 /* strawberryLeft.png */; };
+		A9E67C501E49AD3300419C04 /* iflyMSC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9E67C4F1E49AD3300419C04 /* iflyMSC.framework */; };
 		FD5F06981D1793E100A9E45A /* GPUImageBeautifyFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5F06971D1793E100A9E45A /* GPUImageBeautifyFilter.m */; };
 		FD6BA4521D12CE440080EB2D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FD6BA4501D12CE440080EB2D /* Main.storyboard */; };
 		FD8D74B61E0CB94200D1C8CD /* CanvasView.m in Sources */ = {isa = PBXBuildFile; fileRef = FD8D749A1E0CB94200D1C8CD /* CanvasView.m */; };
@@ -70,7 +71,6 @@
 		FD8D74BD1E0CB94200D1C8CD /* IFlyFaceResultDetector.m in Sources */ = {isa = PBXBuildFile; fileRef = FD8D74AC1E0CB94200D1C8CD /* IFlyFaceResultDetector.m */; };
 		FD8D74BE1E0CB94200D1C8CD /* IFlyFaceResultKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = FD8D74AE1E0CB94200D1C8CD /* IFlyFaceResultKeys.m */; };
 		FD8D74BF1E0CB94200D1C8CD /* IFlyFaceResultTrack.m in Sources */ = {isa = PBXBuildFile; fileRef = FD8D74B01E0CB94200D1C8CD /* IFlyFaceResultTrack.m */; };
-		FD8D74C01E0CB94200D1C8CD /* iflyMSC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD8D74B11E0CB94200D1C8CD /* iflyMSC.framework */; };
 		FD8D74C41E0CBDD200D1C8CD /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = FD8D74C31E0CBDD200D1C8CD /* libz.tbd */; };
 		FD8D74C61E0CBDD600D1C8CD /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = FD8D74C51E0CBDD600D1C8CD /* libc++.tbd */; };
 		FD8D74C81E0CBDEB00D1C8CD /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD8D74C71E0CBDEB00D1C8CD /* CoreTelephony.framework */; };
@@ -201,6 +201,7 @@
 		A9863C831E30B90B00909317 /* newYearIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = newYearIcon.png; sourceTree = "<group>"; };
 		A9863C841E30B90B00909317 /* seaIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = seaIcon.png; sourceTree = "<group>"; };
 		A9863C911E31C0E300909317 /* strawberryLeft.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = strawberryLeft.png; sourceTree = "<group>"; };
+		A9E67C4F1E49AD3300419C04 /* iflyMSC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = iflyMSC.framework; sourceTree = "<group>"; };
 		FD5F06961D1793E100A9E45A /* GPUImageBeautifyFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPUImageBeautifyFilter.h; sourceTree = "<group>"; };
 		FD5F06971D1793E100A9E45A /* GPUImageBeautifyFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPUImageBeautifyFilter.m; sourceTree = "<group>"; };
 		FD6BA4511D12CE440080EB2D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -224,7 +225,6 @@
 		FD8D74AE1E0CB94200D1C8CD /* IFlyFaceResultKeys.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFlyFaceResultKeys.m; sourceTree = "<group>"; };
 		FD8D74AF1E0CB94200D1C8CD /* IFlyFaceResultTrack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFlyFaceResultTrack.h; sourceTree = "<group>"; };
 		FD8D74B01E0CB94200D1C8CD /* IFlyFaceResultTrack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFlyFaceResultTrack.m; sourceTree = "<group>"; };
-		FD8D74B11E0CB94200D1C8CD /* iflyMSC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = iflyMSC.framework; sourceTree = "<group>"; };
 		FD8D74C31E0CBDD200D1C8CD /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		FD8D74C51E0CBDD600D1C8CD /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		FD8D74C71E0CBDEB00D1C8CD /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
@@ -254,7 +254,7 @@
 				FD8D74C81E0CBDEB00D1C8CD /* CoreTelephony.framework in Frameworks */,
 				FD8D74C61E0CBDD600D1C8CD /* libc++.tbd in Frameworks */,
 				FD8D74C41E0CBDD200D1C8CD /* libz.tbd in Frameworks */,
-				FD8D74C01E0CB94200D1C8CD /* iflyMSC.framework in Frameworks */,
+				A9E67C501E49AD3300419C04 /* iflyMSC.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -463,7 +463,6 @@
 			children = (
 				A9863C8C1E30B91000909317 /* res */,
 				FD8D748B1E0CB94200D1C8CD /* FaceRecognition */,
-				FD8D74B11E0CB94200D1C8CD /* iflyMSC.framework */,
 			);
 			path = lib;
 			sourceTree = "<group>";
@@ -566,6 +565,7 @@
 			isa = PBXGroup;
 			children = (
 				FD8D748A1E0CB94200D1C8CD /* lib */,
+				A9E67C4F1E49AD3300419C04 /* iflyMSC.framework */,
 				FD5F06961D1793E100A9E45A /* GPUImageBeautifyFilter.h */,
 				FD5F06971D1793E100A9E45A /* GPUImageBeautifyFilter.m */,
 				FD6BA4501D12CE440080EB2D /* Main.storyboard */,
@@ -928,6 +928,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/LearnOpenGLESWithGPUImage/lib",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/LearnOpenGLESWithGPUImage",
 				);
 				HEADER_SEARCH_PATHS = "../framework/**";
 				INFOPLIST_FILE = LearnOpenGLESWithGPUImage/Info.plist;
@@ -949,6 +950,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/LearnOpenGLESWithGPUImage/lib",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/LearnOpenGLESWithGPUImage",
 				);
 				HEADER_SEARCH_PATHS = "../framework/**";
 				INFOPLIST_FILE = LearnOpenGLESWithGPUImage/Info.plist;

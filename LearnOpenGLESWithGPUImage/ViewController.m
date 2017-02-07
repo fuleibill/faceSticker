@@ -560,19 +560,19 @@
     [self.rtmpButton addSubview:rtmpLabel];
     self.rtmpButton.tag = 105;
     [self.rtmpButton addTarget:self action:@selector(rtmpButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-//    [self.view addSubview:self.rtmpButton];
+    [self.view addSubview:self.rtmpButton];
     
     self.videoSaveButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.videoSaveButton.frame = CGRectMake(buttonWidth * 1, buttonHeight + buttonWidth + 30 , buttonWidth, buttonWidth/3);
+    self.videoSaveButton.frame = CGRectMake(buttonWidth * 0, buttonHeight + buttonWidth + 30 , buttonWidth, buttonWidth/3);
     UILabel *videoSaveLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,0,buttonWidth,buttonWidth/2)];
-    [videoSaveLabel setText:@"Save"];
-    [videoSaveLabel setTextColor:[UIColor grayColor]];
+    [videoSaveLabel setText:@"switch"];
+    [videoSaveLabel setTextColor:[UIColor lightGrayColor]];
     [videoSaveLabel setTextAlignment:NSTextAlignmentCenter];
     [videoSaveLabel setFont:[UIFont systemFontOfSize:12.0f]];
     [self.videoSaveButton addSubview:videoSaveLabel];
     self.videoSaveButton.tag = 106;
     [self.videoSaveButton addTarget:self action:@selector(saveButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-//    [self.view addSubview:self.videoSaveButton];
+    [self.view addSubview:self.videoSaveButton];
 }
 
 
@@ -675,23 +675,24 @@
 
 - (void)saveButtonTapped:(UIButton *)sender{
     
-    // 录像文件
-    NSString *pathToMovie = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/Movie.m4v"];
-    unlink([pathToMovie UTF8String]);
-    NSURL *movieURL = [NSURL fileURLWithPath:pathToMovie];
-    
-    // 配置录制信息
-    movieWriter = [[MSGPUImageMovieWriter alloc] initWithMovieURL:movieURL size:CGSizeMake(480, 640)];
-    movieWriter.delegate = self;
-    
-//    movieWriter.encodingLiveVideo = YES;
-    
-    [self.blendFilter addTarget:movieWriter];
-    
-    
-    
-    
-    // 保存到相册
+    [self.videoCamera rotateCamera];
+//    // 录像文件
+//    NSString *pathToMovie = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/Movie.m4v"];
+//    unlink([pathToMovie UTF8String]);
+//    NSURL *movieURL = [NSURL fileURLWithPath:pathToMovie];
+//    
+//    // 配置录制信息
+//    movieWriter = [[MSGPUImageMovieWriter alloc] initWithMovieURL:movieURL size:CGSizeMake(480, 640)];
+//    movieWriter.delegate = self;
+//    
+////    movieWriter.encodingLiveVideo = YES;
+//    
+//    [self.blendFilter addTarget:movieWriter];
+//    
+//    
+//    
+//    
+//    // 保存到相册
 //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 //        [beautifyFilter removeTarget:movieWriter];
 //        [movieWriter finishRecording];

@@ -15,7 +15,7 @@
 
 @implementation AppDelegate
 
-#define USER_APPID           @"584e1399"
+#define USER_APPID           @"589572a0"
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
