@@ -48,6 +48,8 @@
 @property(nonatomic, retain) MSH264Encoder* videoEncoder;
 @property(nonatomic, retain) MSAudioEncoder* audioEncoder;
 
+@property (nonatomic) BOOL isLive;
+
 @end
 
 
@@ -55,15 +57,20 @@
 }
 
 @synthesize beautifyFilter;
+@synthesize isLive;
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
+    
+    isLive = NO;
 
     // 人脸识别
     self.viewCanvas = [[CanvasView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width / 480 * 640)];
     self.viewCanvas.backgroundColor = [UIColor clearColor];
     self.viewCanvas.headMap = [UIImage imageNamed:@"newyearHear"];
     self.viewCanvas.allbackgroundMap = [UIImage imageNamed:@"newyearBack"];
+    self.viewCanvas.clipsToBounds = YES;
     self.faceDetector = [IFlyFaceDetector sharedInstance];
     
     if(self.faceDetector){
@@ -125,19 +132,31 @@
 #pragma mark -- CMSampleBufferRef获取method
 -(void) willOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer {
     
-//    [self movieAudioBuffer:sampleBuffer];
-    [self movieVideoBuffer:sampleBuffer];
+    if (isLive) {
+        //    [self movieAudioBuffer:sampleBuffer];
+        [self movieVideoBuffer:sampleBuffer];
+    }
     
-//    NSLog(@"2222");
     IFlyFaceImage* faceImg=[self faceImageFromSampleBuffer:sampleBuffer];
     //识别结果，json数据
     NSString* strResult=[self.faceDetector trackFrame:faceImg.data withWidth:faceImg.width height:faceImg.height direction:(int)faceImg.direction];
     
 //    NSLog(@"strResult is %ld",faceImg.direction);
     
-    [self praseTrackResult:strResult OrignImage:faceImg];
     //此处清理图片数据，以防止因为不必要的图片数据的反复传递造成的内存卷积占用
     faceImg.data=nil;
+    
+    //    [self praseTrackResult:strResult OrignImage:faceImg];
+    NSMethodSignature *sig = [self methodSignatureForSelector:@selector(praseTrackResult:OrignImage:)];
+    if (!sig) return;
+    NSInvocation* invocation = [NSInvocation invocationWithMethodSignature:sig];
+    [invocation setTarget:self];
+    [invocation setSelector:@selector(praseTrackResult:OrignImage:)];
+    [invocation setArgument:&strResult atIndex:2];
+    [invocation setArgument:&faceImg atIndex:3];
+    [invocation retainArguments];
+    [invocation performSelectorOnMainThread:@selector(invoke) withObject:nil  waitUntilDone:NO];
+    
     faceImg=nil;
 }
 
@@ -190,7 +209,6 @@
                 NSMutableArray* strPoints=[self praseAlign:landmarkDic OrignImage:faceImg];
                 landmarkDic=nil;
                 
-                
                 NSMutableDictionary *dicPerson = [NSMutableDictionary dictionary] ;
                 if(rectString){
                     [dicPerson setObject:rectString forKey:RECT_KEY];
@@ -222,11 +240,9 @@
 }
 
 
-
 /*
  检测面部特征点
  */
-
 -(NSMutableArray*)praseAlign:(NSDictionary* )landmarkDic OrignImage:(IFlyFaceImage*)faceImg{
     if(!landmarkDic){
         return nil;
@@ -268,7 +284,7 @@
 
 
 #pragma mark - 人脸识别相关方法
-//检测到人脸
+// 检测到人脸
 - (void) showFaceLandmarksAndFaceRectWithPersonsArray:(NSMutableArray *)arrPersons{
     if (self.viewCanvas.hidden) {
         self.viewCanvas.hidden = NO ;
@@ -277,10 +293,12 @@
     [self.viewCanvas setNeedsDisplay];
 }
 
-//没有检测到人脸或发生错误
+// 没有检测到人脸或发生错误
 - (void) hideFace {
     if (!self.viewCanvas.hidden) {
-        self.viewCanvas.hidden = YES ;
+        [UIView animateWithDuration:1.0 animations:^{
+            self.viewCanvas.hidden = YES ;
+        }];
     }
 }
 
@@ -459,12 +477,12 @@
 - (void)movieVideoBuffer:(CMSampleBufferRef)buffer
 {
 //    [self.videoEncoder encodeSampleBuffer:buffer];
-//    [self.videoEncoder encodeSampleBuffer:(__bridge CMSampleBufferRef)(movieWriter)];
+    [self.videoEncoder encodeSampleBuffer:(__bridge CMSampleBufferRef)(movieWriter)];
 }
 
 - (void)movieVideoPixelBuffer:(CVPixelBufferRef)buffer
 {
-    NSLog(@"1222ff");
+//    NSLog(@"1222ff");
     [self.videoEncoder encodePixelBuffer:buffer];
 }
 
@@ -575,7 +593,6 @@
     [self.view addSubview:self.videoSaveButton];
 }
 
-
 - (void)styleButtonTapped:(UIButton *)sender{
     
     [self configAllViewTransparent];
@@ -671,6 +688,8 @@
                                                                      size:bufferLen
                                                                isKeyFrame:isKeyFrame];
                          }];
+    
+    isLive = YES;
 }
 
 - (void)saveButtonTapped:(UIButton *)sender{

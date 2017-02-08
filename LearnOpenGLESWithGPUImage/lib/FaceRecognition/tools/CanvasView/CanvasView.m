@@ -232,6 +232,10 @@
     CGPoint rightEarPoint = CGPointZero;
     CGPoint mouthPoint = CGPointZero;
     
+    CGFloat eyeBrowHalfWidth;
+    CGFloat eyesHalfWidth;
+    CGFloat noseWidth;
+    
     CGFloat spacing = 60;
     
     for (NSDictionary *dicPerson in self.arrPersons) {
@@ -242,15 +246,16 @@
          */
         if ([dicPerson objectForKey:POINTS_KEY]) {
             
-            for (NSString *strPoints in [dicPerson objectForKey:POINTS_KEY]) {
-                CGPoint p = CGPointFromString(strPoints) ;
-                CGContextAddEllipseInRect(context, CGRectMake(p.x - 1 , p.y - 1 , 2 , 2));
-            }
+//            for (NSString *strPoints in [dicPerson objectForKey:POINTS_KEY]) {
+//                CGPoint p = CGPointFromString(strPoints) ;
+//                CGContextAddEllipseInRect(context, CGRectMake(p.x - 1 , p.y - 1 -(kDeviceHeight-kDeviceWidth/480*640)/2 , 2 , 2));
+//            }
             
 #pragma mark - 取嘴角的点算头饰的旋转角度
             NSArray * strPoints = [dicPerson objectForKey:POINTS_KEY];
 //            NSInteger strCount = [strPoints count];
 //            NSLog(@"strPoints count is %ld",(long)strCount);
+            
             //右边鼻孔
             CGPoint  strPoint1 = CGPointFromString(((NSString *)strPoints[2]));
 //            CGContextAddEllipseInRect(context,CGRectMake(strPoint1.x - 1 , strPoint1.y - 1 , 2 , 2));
@@ -265,7 +270,7 @@
             CGPoint strPoint4 = CGPointFromString(((NSString *)strPoints[20]));
 //            CGContextAddEllipseInRect(context,CGRectMake(strPoint4.x - 1 , strPoint4.y - 1 , 2 , 2));
             
-           rotation = atan((strPoint3.x+strPoint4.x -strPoint1.x - strPoint2.x)/(strPoint3.y +strPoint4.y - strPoint1.y - strPoint2.y) *1.5);
+           rotation = atan((strPoint3.x+strPoint4.x -strPoint1.x - strPoint2.x)/(strPoint3.y +strPoint4.y - strPoint1.y - strPoint2.y) * 1.5);
             
             
 #pragma mark - 取眉毛的点算头部的位置
@@ -293,6 +298,8 @@
             leftEarPoint = CGPointMake(eyebrowsPoint2.x - (-eyebrowsPoint1.x + eyebrowsPoint2.x)* 5, eyebrowsPoint2.y - (-eyebrowsPoint1.x + eyebrowsPoint2.x)*2);
             rightEarPoint = CGPointMake(eyebrowsPoint4.x - (eyebrowsPoint3.x - eyebrowsPoint4.x) * 0.9, eyebrowsPoint4.y - (eyebrowsPoint3.x - eyebrowsPoint4.x)*1.8);
             
+            eyeBrowHalfWidth = eyebrowsPoint3.x - eyebrowsPoint1.x;
+            noseWidth = strPoint2.x - strPoint1.x;
 //            CGContextAddEllipseInRect(context,CGRectMake(midpoint.x - 1 , midpoint.y - 1 , 2 , 2));
         }
         
@@ -308,8 +315,10 @@
                 
                 if(self.headMap){
                     CGFloat scale =  (rect.size.width / self.headMap.size.width) + 0.3;
-                    CGFloat headMapViewW = scale * self.headMap.size.width;
-                    CGFloat headmapViewH = scale * self.headMap.size.height;
+//                    CGFloat headMapViewW = scale * self.headMap.size.width;
+//                    CGFloat headmapViewH = scale * self.headMap.size.height;
+                    CGFloat headMapViewW = eyeBrowHalfWidth * 3;
+                    CGFloat headmapViewH = headMapViewW * 0.9;
                     
 //                    CGRect frame  =  CGRectMake(midpoint.x - (headMapViewW * 0.5), midpoint.y - headmapViewH/2 * 0.8 - (kDeviceHeight-kDeviceWidth/480*640)/2, headMapViewW, headmapViewH);
                     CGPoint headCenter = CGPointMake(midpoint.x, midpoint.y + headmapViewH/3);
@@ -322,6 +331,8 @@
                 }
                 if(self.noseMap){
                     CGFloat scale =  (rect.size.width / self.noseMap.size.width) * 0.88 ;
+//                    CGFloat noseMapViewW = scale * self.noseMap.size.width /3.5;
+//                    CGFloat nosemapViewH = scale * self.noseMap.size.height /3.5 * 1.2;
                     CGFloat noseMapViewW = scale * self.noseMap.size.width /3.5;
                     CGFloat nosemapViewH = scale * self.noseMap.size.height /3.5 * 1.2;
                     
@@ -331,14 +342,16 @@
                     self.noseMapView.bounds = CGRectMake(0, 0, noseMapViewW, nosemapViewH);
                     
                     self.noseMapView.layer.anchorPoint = CGPointMake(0.5, 1);
-//                    self.noseMapView.transform = CGAffineTransformMakeRotation(-rotation);
+                    self.noseMapView.transform = CGAffineTransformMakeRotation(-rotation);
                 }
                 if(self.leftEarMap){
                     CGFloat scale =  (rect.size.width / self.leftEarMap.size.width) + 0.3;
-                    CGFloat leftEarMapViewW = scale * self.leftEarMap.size.width /3.5 * 1.5;
-                    CGFloat leftEarMapViewH = scale * self.leftEarMap.size.height /3.5 * 1.5;
+//                    CGFloat leftEarMapViewW = scale * self.leftEarMap.size.width /3.5 * 1.5;
+//                    CGFloat leftEarMapViewH = scale * self.leftEarMap.size.height /3.5 * 1.5;
+                    CGFloat leftEarMapViewW = eyeBrowHalfWidth / 0.9;
+                    CGFloat leftEarMapViewH = eyeBrowHalfWidth / 1;
     
-                    CGRect frame  =  CGRectMake(leftEarPoint.x , leftEarPoint.y - leftEarMapViewH /1.2 - (kDeviceHeight-kDeviceWidth/480*640)/2, leftEarMapViewW, leftEarMapViewH);
+                    CGRect frame  =  CGRectMake(leftEarPoint.x , leftEarPoint.y - leftEarMapViewH / 1.4 - (kDeviceHeight-kDeviceWidth/480*640)/2, leftEarMapViewW, leftEarMapViewH);
                     
 //                    [self.leftEarMapView setBackgroundColor:[UIColor redColor]];
                     
@@ -350,10 +363,12 @@
                 }
                 if(self.rightEarMap){
                     CGFloat scale =  (rect.size.width / self.rightEarMap.size.width) + 0.3;
-                    CGFloat rightEarMapViewW = scale * self.rightEarMap.size.width /3.5 * 1.5;
-                    CGFloat rightEarMapViewH = scale * self.rightEarMap.size.height /3.5 * 1.5;
+//                    CGFloat rightEarMapViewW = scale * self.rightEarMap.size.width /3.5 * 1.5;
+//                    CGFloat rightEarMapViewH = scale * self.rightEarMap.size.height /3.5 * 1.5;
+                    CGFloat rightEarMapViewW = eyeBrowHalfWidth / 0.9;
+                    CGFloat rightEarMapViewH = eyeBrowHalfWidth / 1;
                     
-                    CGRect frame  =  CGRectMake(rightEarPoint.x , rightEarPoint.y - rightEarMapViewW /1.2 - (kDeviceHeight-kDeviceWidth/480*640)/2, rightEarMapViewW, rightEarMapViewH);
+                    CGRect frame  =  CGRectMake(rightEarPoint.x , rightEarPoint.y - rightEarMapViewW /1.3 - (kDeviceHeight-kDeviceWidth/480*640)/2, rightEarMapViewW, rightEarMapViewH);
                     
                     self.rightEarMapView.frame = frame;
                     self.rightEarMapView.bounds = CGRectMake(0, 0, rightEarMapViewW, rightEarMapViewH);
@@ -401,7 +416,6 @@
                     [self bringSubviewToFront:self.bodyMapView];
                     self.bodyMapView.bounds = CGRectMake(0, 0, bodyMapViewW, bodyMapViewH);
                 }
-                self.clipsToBounds = YES;
             }
         } @catch (NSException *exception) {
             NSLog(@"exception is %@",exception);
