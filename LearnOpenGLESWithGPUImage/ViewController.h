@@ -10,10 +10,10 @@
 #import "GPUImage.h"
 #import "MSGPUImageMovieWriter.h"
 
-@interface ViewController : UIViewController <MSGPUImageMovieWriterDelegate>
+@interface ViewController : UIViewController <GPUImageMovieWriterDelegate>
 {
-    MSGPUImageMovieWriter *movieWriter;
-//    GPUImageMovieWriter *movieWriter;
+//    MSGPUImageMovieWriter *movieWriter;
+    GPUImageMovieWriter *movieWriter;
 }
 
 @property (nonatomic) UIButton *firstStyleButton;

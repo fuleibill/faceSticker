@@ -16,9 +16,10 @@
 #import "CanvasView.h"
 #import "IFlyFaceResultKeys.h"
 #import "CalculatorTools.h"
-#import "MSAudioEncoder.h"
-#import "MSH264Encoder.h"
-#import "MSRtmpService.h"
+#import "LFLiveKit.h"
+//#import "MSAudioEncoder.h"
+//#import "MSH264Encoder.h"
+//#import "MSRtmpService.h"
 
 
 
@@ -45,10 +46,15 @@
 /**
  Movie Encoder
 */
-@property(nonatomic, retain) MSH264Encoder* videoEncoder;
-@property(nonatomic, retain) MSAudioEncoder* audioEncoder;
+//@property(nonatomic, retain) MSH264Encoder* videoEncoder;
+//@property(nonatomic, retain) MSAudioEncoder* audioEncoder;
 
 @property (nonatomic) BOOL isLive;
+@property (nonatomic) UILabel *rtmpLabel;
+
+// rtmp push stream
+@property (nonatomic, strong) LFLiveDebug *debugInfo;
+@property (nonatomic, strong) LFLiveSession *session;
 
 @end
 
@@ -58,6 +64,7 @@
 
 @synthesize beautifyFilter;
 @synthesize isLive;
+@synthesize rtmpLabel;
 
 - (void)viewDidLoad {
     
@@ -95,7 +102,6 @@
     
 //    NSLog(@"self.frame is %@",NSStringFromCGRect(self.view.frame));
     
-
     // 响应链配置
     beautifyFilter = [[GPUImageBeautifyFilter alloc] init];
     [self.videoCamera addTarget:beautifyFilter];
@@ -127,15 +133,26 @@
     [self.view addSubview:self.viewCanvas];
 
     [self configButton];
+    
+    // rtmp
+    /***   默认分辨率368 ＊ 640  音频：44.1 iphone6以上48  双声道  方向竖屏 ***/
+    LFLiveVideoConfiguration *videoConfiguration = [LFLiveVideoConfiguration new];
+//    videoConfiguration.videoSize = CGSizeMake(360, 640);
+    videoConfiguration.videoSize = CGSizeMake(640, 480);
+    videoConfiguration.videoBitRate = 800*1024;
+    videoConfiguration.videoMaxBitRate = 1000*1024;
+    videoConfiguration.videoMinBitRate = 500*1024;
+    videoConfiguration.videoFrameRate = 24;
+    videoConfiguration.videoMaxKeyframeInterval = 48;
+    videoConfiguration.outputImageOrientation = UIInterfaceOrientationPortrait;
+    videoConfiguration.autorotate = YES;
+//    videoConfiguration.sessionPreset = LFCaptureSessionPreset540x960;
+    _session = [[LFLiveSession alloc] initWithAudioConfiguration:[LFLiveAudioConfiguration defaultConfiguration] videoConfiguration:videoConfiguration captureType:LFLiveInputMaskVideo];
+    
 }
 
 #pragma mark -- CMSampleBufferRef获取method
 -(void) willOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer {
-    
-    if (isLive) {
-        //    [self movieAudioBuffer:sampleBuffer];
-        [self movieVideoBuffer:sampleBuffer];
-    }
     
     IFlyFaceImage* faceImg=[self faceImageFromSampleBuffer:sampleBuffer];
     //识别结果，json数据
@@ -244,6 +261,7 @@
  检测面部特征点
  */
 -(NSMutableArray*)praseAlign:(NSDictionary* )landmarkDic OrignImage:(IFlyFaceImage*)faceImg{
+    
     if(!landmarkDic){
         return nil;
     }
@@ -348,6 +366,14 @@
 
 
 - (IFlyFaceImage *) faceImageFromSampleBuffer:(CMSampleBufferRef) sampleBuffer{
+    
+    CVImageBufferRef cvimgRef = CMSampleBufferGetImageBuffer(sampleBuffer);
+    CVPixelBufferRef pixelBufRef = cvimgRef;
+    
+    __weak typeof(self) _self = self;
+    
+    [_self.session pushVideo:pixelBufRef];
+    _session.warterMarkView = self.viewCanvas;
     
     //获取灰度图像数据
     CVPixelBufferRef pixelBuffer = (CVPixelBufferRef)CMSampleBufferGetImageBuffer(sampleBuffer);
@@ -467,30 +493,6 @@
 }
 
 
-#pragma mark - MSGPUImageMovieWriter Delegate
-
-- (void)movieAudioBuffer:(CMSampleBufferRef)buffer
-{
-    [self.audioEncoder encodeSampleBuffer:buffer];
-}
-
-- (void)movieVideoBuffer:(CMSampleBufferRef)buffer
-{
-//    [self.videoEncoder encodeSampleBuffer:buffer];
-    [self.videoEncoder encodeSampleBuffer:(__bridge CMSampleBufferRef)(movieWriter)];
-}
-
-- (void)movieVideoPixelBuffer:(CVPixelBufferRef)buffer
-{
-//    NSLog(@"1222ff");
-    [self.videoEncoder encodePixelBuffer:buffer];
-}
-
-- (void)processMagicStickerSampleBuffer:(CMSampleBufferRef)buffer {
-
-}
-
-
 #pragma mark -- config button usage
 
 - (void)configButton{
@@ -569,12 +571,14 @@
     [self.view addSubview:self.fifthStyleButton];
     
     self.rtmpButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.rtmpButton.frame = CGRectMake(buttonWidth * 2, buttonHeight + buttonWidth + 30 , buttonWidth, buttonWidth/3);
-    UILabel *rtmpLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,0,buttonWidth,buttonWidth/2)];
+    self.rtmpButton.frame = CGRectMake(buttonWidth * 1, buttonHeight + buttonWidth + 30 , buttonWidth * 3, buttonWidth/2);
+    [self.rtmpButton setBackgroundColor:[UIColor lightGrayColor]];
+    [self.rtmpButton.layer setCornerRadius:buttonWidth/4];
+    rtmpLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,0,buttonWidth * 3,buttonWidth/2)];
     [rtmpLabel setText:@"Live"];
-    [rtmpLabel setTextColor:[UIColor grayColor]];
+    [rtmpLabel setTextColor:[UIColor whiteColor]];
     [rtmpLabel setTextAlignment:NSTextAlignmentCenter];
-    [rtmpLabel setFont:[UIFont systemFontOfSize:12.0f]];
+    [rtmpLabel setFont:[UIFont systemFontOfSize:16.0f]];
     [self.rtmpButton addSubview:rtmpLabel];
     self.rtmpButton.tag = 105;
     [self.rtmpButton addTarget:self action:@selector(rtmpButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
@@ -590,7 +594,7 @@
     [self.videoSaveButton addSubview:videoSaveLabel];
     self.videoSaveButton.tag = 106;
     [self.videoSaveButton addTarget:self action:@selector(saveButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.videoSaveButton];
+//    [self.view addSubview:self.videoSaveButton];
 }
 
 - (void)styleButtonTapped:(UIButton *)sender{
@@ -637,59 +641,38 @@
 
 - (void)rtmpButtonTapped:(UIButton *)sender{
     
-    // 配置录制信息
-    movieWriter = [[MSGPUImageMovieWriter alloc] initWithSize:CGSizeMake(480, 640)];
-    movieWriter.delegate = self;
-    
-    // 开始录制
-    [movieWriter startRecording];
-    
+    __weak typeof(self) _self = self;
+    if (isLive) {
+        [rtmpLabel setText:@"Live"];
+        [_self.session stopLive];
+        isLive = NO;
+        
+    }else{
+        // 录像文件
+        NSString *pathToMovie = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/Movie.m4v"];
+        unlink([pathToMovie UTF8String]);
+        NSURL *movieURL = [NSURL fileURLWithPath:pathToMovie];
+        
+        // 配置录制信息
+        movieWriter = [[GPUImageMovieWriter alloc] initWithMovieURL:movieURL size:CGSizeMake(480, 640)];
+        movieWriter.delegate = self;
+        
+        // 开始录制
+        [movieWriter startRecording];
+        
+        [rtmpLabel setText:@"Stop Live"];
+        
+        LFLiveStreamInfo *stream = [LFLiveStreamInfo new];
+        stream.url = @"rtmp://192.168.3.32/hls/magicSticker";
+        
+        [_self.session setRunning:YES];
+        [_self.session startLive:stream];
+        
+        isLive = YES;
+    }
 //    [self.blendFilter addTarget:movieWriter];
-    
-    [self.videoCamera setDelegate:movieWriter];
-    [self.videoCamera setAudioEncodingTarget:(MSGPUImageMovieWriter *)movieWriter];
-    
-    char byteAACHeader[] = {0x12, 0x8};
-    //    rtmp://ps10.live.5kong.tv/live_5kong/1b1ad0830e973d75d2453bb83b307786?sign=1a7742534e270819088d32c5979e054a&tm=20160824191915&domain=ps10.live.5kong.tv
-    [[MSRtmpService sharedInstance] createRtmp:@"rtmp://video-center.alivecdn.com/hengdapme" key:@"587d833bedf34d0032f62062?vhost=hd-rtmp.videojj.com&auth_key=1486448274-0-0-52f2a1842fb8052b2e6a58b3894c1364"];
-    [[MSRtmpService sharedInstance] setAudioBps:64000/1000
-                                       channels:1
-                                     sampleSize:16
-                                     sampleRate:44100/1000
-                                      aacHeader:byteAACHeader
-                                  aacHeaderSize:2];
-    
-    self.audioEncoder = [[MSAudioEncoder alloc] initWithBitrate:64000
-                                                     sampleRate:44100
-                                                       channels:1
-                                                    onDataReady:^(void *buffer, int32_t bufferLen)
-                         {
-                             [[MSRtmpService sharedInstance] pushAudioData:buffer size:bufferLen];
-                         }];
-    
-    self.videoEncoder = [[MSH264Encoder alloc] initWithWidth:720
-                                                      height:1280
-                                            keyFrameInterval:3
-                                                     bitrate:1000000
-                                                         fps:20
-                                               onSPSPPSReady:^(char *spspps, int spsppsSize)
-                         {
-                             [[MSRtmpService sharedInstance] setVideoWidth:720
-                                                                    height:1280
-                                                                       fps:20
-                                                                       bps:1000000
-                                                                    spspps:spspps
-                                                                spsppsSize:spsppsSize];
-                         }
-                                                 onDataReady:^(void *buffer, int32_t bufferLen, uint64_t timestamp, BOOL isKeyFrame)
-                         {
-                             [[MSRtmpService sharedInstance] pushVideoPts:timestamp
-                                                                     data:buffer
-                                                                     size:bufferLen
-                                                               isKeyFrame:isKeyFrame];
-                         }];
-    
-    isLive = YES;
+//    [self.videoCamera setDelegate:movieWriter];
+//    [self.videoCamera setAudioEncodingTarget:(GPUImageMovieWriter *)movieWriter];
 }
 
 - (void)saveButtonTapped:(UIButton *)sender{
@@ -707,10 +690,6 @@
 ////    movieWriter.encodingLiveVideo = YES;
 //    
 //    [self.blendFilter addTarget:movieWriter];
-//    
-//    
-//    
-//    
 //    // 保存到相册
 //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 //        [beautifyFilter removeTarget:movieWriter];

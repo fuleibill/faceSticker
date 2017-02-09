@@ -246,10 +246,10 @@
          */
         if ([dicPerson objectForKey:POINTS_KEY]) {
             
-//            for (NSString *strPoints in [dicPerson objectForKey:POINTS_KEY]) {
-//                CGPoint p = CGPointFromString(strPoints) ;
-//                CGContextAddEllipseInRect(context, CGRectMake(p.x - 1 , p.y - 1 -(kDeviceHeight-kDeviceWidth/480*640)/2 , 2 , 2));
-//            }
+            for (NSString *strPoints in [dicPerson objectForKey:POINTS_KEY]) {
+                CGPoint p = CGPointFromString(strPoints) ;
+                CGContextAddEllipseInRect(context, CGRectMake(p.x - 1 , p.y - 1 -(kDeviceHeight-kDeviceWidth/480*640)/2 , 2 , 2));
+            }
             
 #pragma mark - 取嘴角的点算头饰的旋转角度
             NSArray * strPoints = [dicPerson objectForKey:POINTS_KEY];
