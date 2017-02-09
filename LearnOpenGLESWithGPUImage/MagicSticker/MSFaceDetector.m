@@ -32,7 +32,7 @@
 @property (nonatomic) UIButton *fifthStyleButton;
 
 @property (nonatomic) UIButton *videoSaveButton;
-@property (nonatomic) UIButton *rtmpButton;
+
 @property (nonatomic) UILabel *rtmpLabel;
 
 
@@ -43,8 +43,32 @@
 
 @synthesize rtmpLabel;
 
+- (id)initWithFrame:(CGRect)frame {
+    
+    self.frame = frame;
+    
+    self.viewRect = CGRectMake(0, 0, frame.size.width, frame.size.height);
+    // 人脸识别
+    self.viewCanvas = [[CanvasView alloc] initWithFrame:CGRectMake(0, 0, self.viewRect.size.width, self.viewRect.size.width / 480 * 640)];
+    self.viewCanvas.backgroundColor = [UIColor clearColor];
+    self.viewCanvas.headMap = [UIImage imageNamed:@"newyearHear"];
+    self.viewCanvas.allbackgroundMap = [UIImage imageNamed:@"newyearBack"];
+    self.viewCanvas.clipsToBounds = YES;
+    self.faceDetector = [IFlyFaceDetector sharedInstance];
+    
+    //    if(self.faceDetector){
+    [self.faceDetector setParameter:@"1" forKey:@"detect"];
+    [self.faceDetector setParameter:@"1" forKey:@"align"];
+    //    }
+    
+
+    return self;
+}
+
 
 - (MSFaceDetector *)initWithViewRect:(CGRect)viewRect{
+    
+    self.frame = CGRectMake(0, 0, viewRect.size.width, viewRect.size.height);
     
     self.viewRect = viewRect;
     // 人脸识别
@@ -55,22 +79,29 @@
     self.viewCanvas.clipsToBounds = YES;
     self.faceDetector = [IFlyFaceDetector sharedInstance];
     
-    if(self.faceDetector){
+//    if(self.faceDetector){
         [self.faceDetector setParameter:@"1" forKey:@"detect"];
         [self.faceDetector setParameter:@"1" forKey:@"align"];
-    }
+//    }
     
     return self;
 }
 
-- (CMSampleBufferRef)faceImageSampleBufferFromPlatform:(CMSampleBufferRef)sampleBuffer isFront:(BOOL)isFront{
+- (void)faceImageSampleBufferFromPlatform:(CMSampleBufferRef)sampleBuffer isFront:(BOOL)isFront{
     
     self.isFront = isFront;
     
+    
+    
     IFlyFaceImage* faceImg=[self faceImageFromSampleBuffer:sampleBuffer];
+    
+    
+    
     //识别结果，json数据
     NSString* strResult=[self.faceDetector trackFrame:faceImg.data withWidth:faceImg.width height:faceImg.height direction:(int)faceImg.direction];
     
+//    NSLog(@"sampleBuffer %lf,%lf",faceImg.width,faceImg.height);
+    NSLog(@"strResult %@",strResult);
     //    NSLog(@"strResult is %ld",faceImg.direction);
     
     //此处清理图片数据，以防止因为不必要的图片数据的反复传递造成的内存卷积占用
@@ -78,7 +109,7 @@
     
     //        [self praseTrackResult:strResult OrignImage:faceImg];
     NSMethodSignature *sig = [self methodSignatureForSelector:@selector(praseTrackResult:OrignImage:)];
-    if (!sig) return nil;
+    if (!sig) return ;
     NSInvocation* invocation = [NSInvocation invocationWithMethodSignature:sig];
     [invocation setTarget:self];
     [invocation setSelector:@selector(praseTrackResult:OrignImage:)];
@@ -90,15 +121,15 @@
     faceImg=nil;
     
     CMSampleBufferRef filterImageBuffer;
-    return filterImageBuffer;
+//    return filterImageBuffer;
 }
 
-- (CVPixelBufferRef)faceImagePixelBufferFromPlatform:(CVPixelBufferRef)pixelBuffer isFront:(BOOL)isFront{
+- (void)faceImagePixelBufferFromPlatform:(CVPixelBufferRef)pixelBuffer isFront:(BOOL)isFront{
     
     self.isFront = isFront;
     
     CVPixelBufferRef filterPixelImageBuffer;
-    return filterPixelImageBuffer;
+//    return filterPixelImageBuffer;
 }
 
 
@@ -221,6 +252,7 @@
             
         }
     }
+    NSLog(@"arrStrPoints %@",arrStrPoints);
     return arrStrPoints;
     
 }
@@ -326,20 +358,13 @@
     CGImageRelease(cgImage);
     CGContextRelease(context);
     CGColorSpaceRelease(grayColorSpace);
-    
-    CVImageBufferRef cvimgRef = CMSampleBufferGetImageBuffer(sampleBuffer);
-    CVPixelBufferRef pixelBufRef = cvimgRef;
-    
-    __weak typeof(self) _self = self;
-    
-//    _session.warterMarkView = self.viewCanvas;
-//    [_self.session pushVideo:pixelBufRef];
-    
+
     return faceImage;
 }
 
 #pragma mark - 判断视频帧方向
 -(IFlyFaceDirectionType)faceImageOrientation {
+    
     IFlyFaceDirectionType faceOrientation=IFlyFaceDirectionTypeLeft;
     BOOL isFrontCamera = self.isFront;
     switch (self.interfaceOrientation) {
@@ -442,31 +467,6 @@
     [self.fifthStyleButton addTarget:self action:@selector(styleButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.fifthStyleButton];
     
-    self.rtmpButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.rtmpButton.frame = CGRectMake(buttonWidth * 1, buttonHeight + buttonWidth + 30 , buttonWidth * 3, buttonWidth/2);
-    [self.rtmpButton setBackgroundColor:[UIColor lightGrayColor]];
-    [self.rtmpButton.layer setCornerRadius:buttonWidth/4];
-    rtmpLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,0,buttonWidth * 3,buttonWidth/2)];
-    [rtmpLabel setText:@"Live"];
-    [rtmpLabel setTextColor:[UIColor whiteColor]];
-    [rtmpLabel setTextAlignment:NSTextAlignmentCenter];
-    [rtmpLabel setFont:[UIFont systemFontOfSize:16.0f]];
-    [self.rtmpButton addSubview:rtmpLabel];
-    self.rtmpButton.tag = 105;
-    [self.rtmpButton addTarget:self action:@selector(rtmpButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview:self.rtmpButton];
-    
-    self.videoSaveButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.videoSaveButton.frame = CGRectMake(buttonWidth * 0, buttonHeight + buttonWidth + 30 , buttonWidth, buttonWidth/3);
-    UILabel *videoSaveLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,0,buttonWidth,buttonWidth/2)];
-    [videoSaveLabel setText:@"switch"];
-    [videoSaveLabel setTextColor:[UIColor lightGrayColor]];
-    [videoSaveLabel setTextAlignment:NSTextAlignmentCenter];
-    [videoSaveLabel setFont:[UIFont systemFontOfSize:12.0f]];
-    [self.videoSaveButton addSubview:videoSaveLabel];
-    self.videoSaveButton.tag = 106;
-    [self.videoSaveButton addTarget:self action:@selector(saveButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-    //    [self.view addSubview:self.videoSaveButton];
 }
 
 - (void)styleButtonTapped:(UIButton *)sender{

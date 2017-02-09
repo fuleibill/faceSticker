@@ -14,7 +14,9 @@
 
 @interface MSFaceDetector : UIView
 
-- (CMSampleBufferRef)faceImageSampleBufferFromPlatform:(CMSampleBufferRef)sampleBuffer isFront:(BOOL)isFront;
-- (CVPixelBufferRef)faceImagePixelBufferFromPlatform:(CVPixelBufferRef)pixelBuffer isFront:(BOOL)isFront;
+- (MSFaceDetector *)initWithViewRect:(CGRect)viewRect;
+
+- (void)faceImageSampleBufferFromPlatform:(CMSampleBufferRef)sampleBuffer isFront:(BOOL)isFront;
+- (void)faceImagePixelBufferFromPlatform:(CVPixelBufferRef)pixelBuffer isFront:(BOOL)isFront;
 
 @end
