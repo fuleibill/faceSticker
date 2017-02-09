@@ -247,6 +247,7 @@
 
 - (void)setBeautyFace:(BOOL)beautyFace {
     [self willChangeValueForKey:@"beautyFace"];
+    NSLog(@"beautyFace %@",beautyFace?@"YES":@"NO");
     [self.videoCaptureSource setBeautyFace:beautyFace];
     [self didChangeValueForKey:@"beautyFace"];
 }

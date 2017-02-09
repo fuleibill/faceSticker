@@ -163,6 +163,7 @@
 }
 
 - (void)setBeautyFace:(BOOL)beautyFace{
+    NSLog(@"setBeautyFace ----");
     _beautyFace = beautyFace;
     [self reloadFilter];
 }
@@ -280,6 +281,9 @@
 }
 
 - (void)reloadFilter{
+    
+    NSLog(@"reloadFilter ------");
+    
     [self.filter removeAllTargets];
     [self.blendFilter removeAllTargets];
     [self.uiElementInput removeAllTargets];

@@ -17,13 +17,16 @@
 #import "IFlyFaceResultKeys.h"
 #import "CalculatorTools.h"
 #import "LFLiveKit.h"
+#import "UIControl+YYAdd.h"
+#import "UIView+YYAdd.h"
+#import "MagicStickerHeaders.h"
 //#import "MSAudioEncoder.h"
 //#import "MSH264Encoder.h"
 //#import "MSRtmpService.h"
 
 
 
-@interface ViewController () <GPUImageVideoCameraDelegate>
+@interface ViewController () <GPUImageVideoCameraDelegate,LFLiveSessionDelegate>
 @property (nonatomic, strong) GPUImageVideoCamera *videoCamera;
 //@property (nonatomic , strong) MSGPUImageMovieWriter *movieWriter;
 //@property (nonatomic , strong) GPUImageMovieWriter *movieWriter;
@@ -33,6 +36,7 @@
 /**
  人脸识别
  */
+@property (nonatomic, retain ) MSFaceDetector *msFaceDetector;
 @property (nonatomic, retain ) IFlyFaceDetector *faceDetector;
 @property (nonatomic , strong) CanvasView   *viewCanvas;
 /**
@@ -55,6 +59,7 @@
 // rtmp push stream
 @property (nonatomic, strong) LFLiveDebug *debugInfo;
 @property (nonatomic, strong) LFLiveSession *session;
+@property (nonatomic, strong) UIButton *beautyButton;
 
 @end
 
@@ -84,9 +89,6 @@
         [self.faceDetector setParameter:@"1" forKey:@"detect"];
         [self.faceDetector setParameter:@"1" forKey:@"align"];
     }
-    
-//    NSString* strEnable=[NSString stringWithFormat:@"%@",[sender isOn]?@"1":@"0"] ;
-    [self.faceDetector setParameter:@"1" forKey:@"align"];
     
 //    [self.viewCanvas setBackgroundColor:[UIColor whiteColor]];
     
@@ -133,7 +135,7 @@
     [self.view addSubview:self.viewCanvas];
 
     [self configButton];
-    
+    [self.view addSubview:self.beautyButton];
     // rtmp
     /***   默认分辨率368 ＊ 640  音频：44.1 iphone6以上48  双声道  方向竖屏 ***/
     LFLiveVideoConfiguration *videoConfiguration = [LFLiveVideoConfiguration new];
@@ -151,6 +153,8 @@
     
 }
 
+
+
 #pragma mark -- CMSampleBufferRef获取method
 -(void) willOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer {
     
@@ -163,7 +167,7 @@
     //此处清理图片数据，以防止因为不必要的图片数据的反复传递造成的内存卷积占用
     faceImg.data=nil;
     
-    //    [self praseTrackResult:strResult OrignImage:faceImg];
+//        [self praseTrackResult:strResult OrignImage:faceImg];
     NSMethodSignature *sig = [self methodSignatureForSelector:@selector(praseTrackResult:OrignImage:)];
     if (!sig) return;
     NSInvocation* invocation = [NSInvocation invocationWithMethodSignature:sig];
@@ -300,7 +304,6 @@
 }
 
 
-
 #pragma mark - 人脸识别相关方法
 // 检测到人脸
 - (void) showFaceLandmarksAndFaceRectWithPersonsArray:(NSMutableArray *)arrPersons{
@@ -367,14 +370,6 @@
 
 - (IFlyFaceImage *) faceImageFromSampleBuffer:(CMSampleBufferRef) sampleBuffer{
     
-    CVImageBufferRef cvimgRef = CMSampleBufferGetImageBuffer(sampleBuffer);
-    CVPixelBufferRef pixelBufRef = cvimgRef;
-    
-    __weak typeof(self) _self = self;
-    
-    [_self.session pushVideo:pixelBufRef];
-    _session.warterMarkView = self.viewCanvas;
-    
     //获取灰度图像数据
     CVPixelBufferRef pixelBuffer = (CVPixelBufferRef)CMSampleBufferGetImageBuffer(sampleBuffer);
     CVPixelBufferLockBaseAddress(pixelBuffer, 0);
@@ -410,10 +405,16 @@
     CGContextRelease(context);
     CGColorSpaceRelease(grayColorSpace);
     
+    CVImageBufferRef cvimgRef = CMSampleBufferGetImageBuffer(sampleBuffer);
+    CVPixelBufferRef pixelBufRef = cvimgRef;
+    
+    __weak typeof(self) _self = self;
+    
+    _session.warterMarkView = self.viewCanvas;
+    [_self.session pushVideo:pixelBufRef];
+    
     return faceImage;
 }
-
-
 
 - (void)updateCM {
     // 这里使用CoreMotion来获取设备方向以兼容iOS7.0设备 检测当前设备的方向 Home键向上还是向下。。。。
@@ -717,6 +718,24 @@
 //            NSLog(@"error mssg)");
 //        }
 //    });
+}
+
+
+- (UIButton *)beautyButton {
+    if (!_beautyButton) {
+        _beautyButton = [UIButton new];
+        _beautyButton.size = CGSizeMake(44, 44);
+        _beautyButton.origin = CGPointMake(self.view.frame.size.width - 10 - _beautyButton.width, 20);
+        [_beautyButton setImage:[UIImage imageNamed:@"camra_beauty"] forState:UIControlStateNormal];
+        [_beautyButton setImage:[UIImage imageNamed:@"camra_beauty_close"] forState:UIControlStateSelected];
+        _beautyButton.exclusiveTouch = YES;
+        __weak typeof(self) _self = self;
+        [_beautyButton addBlockForControlEvents:UIControlEventTouchUpInside block:^(id sender) {
+            _self.session.beautyFace = !_self.session.beautyFace;
+            _self.beautyButton.selected = !_self.session.beautyFace;
+        }];
+    }
+    return _beautyButton;
 }
 
 - (void)configAllViewTransparent{

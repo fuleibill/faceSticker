@@ -210,6 +210,12 @@
 		A90B688F1E4B14D900272497 /* GPUImageBeautifyFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = A90B688E1E4B14D900272497 /* GPUImageBeautifyFilter.m */; };
 		A90B68941E4C0B5C00272497 /* UIControl+YYAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = A90B68911E4C0B5C00272497 /* UIControl+YYAdd.m */; };
 		A90B68951E4C0B5C00272497 /* UIView+YYAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = A90B68931E4C0B5C00272497 /* UIView+YYAdd.m */; };
+		A90B68AA1E4C3F6F00272497 /* camra_beauty_close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A90B68A61E4C3F6F00272497 /* camra_beauty_close@2x.png */; };
+		A90B68AB1E4C3F6F00272497 /* camra_beauty_close@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A90B68A71E4C3F6F00272497 /* camra_beauty_close@3x.png */; };
+		A90B68AC1E4C3F6F00272497 /* camra_beauty@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A90B68A81E4C3F6F00272497 /* camra_beauty@2x.png */; };
+		A90B68AD1E4C3F6F00272497 /* camra_beauty@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A90B68A91E4C3F6F00272497 /* camra_beauty@3x.png */; };
+		A90B68B01E4C4A4D00272497 /* MagicStickerHeaders.m in Sources */ = {isa = PBXBuildFile; fileRef = A90B68AF1E4C4A4D00272497 /* MagicStickerHeaders.m */; };
+		A90B68B71E4C576200272497 /* MSFaceDetector.m in Sources */ = {isa = PBXBuildFile; fileRef = A90B68B61E4C576200272497 /* MSFaceDetector.m */; };
 		A915962F1E45BCCC008DABB5 /* seaback.png in Resources */ = {isa = PBXBuildFile; fileRef = A915962B1E45BCCC008DABB5 /* seaback.png */; };
 		A91596301E45BCCC008DABB5 /* seabody.png in Resources */ = {isa = PBXBuildFile; fileRef = A915962C1E45BCCC008DABB5 /* seabody.png */; };
 		A91596311E45BCCC008DABB5 /* seaface.png in Resources */ = {isa = PBXBuildFile; fileRef = A915962D1E45BCCC008DABB5 /* seaface.png */; };
@@ -692,6 +698,14 @@
 		A90B68911E4C0B5C00272497 /* UIControl+YYAdd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIControl+YYAdd.m"; sourceTree = "<group>"; };
 		A90B68921E4C0B5C00272497 /* UIView+YYAdd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+YYAdd.h"; sourceTree = "<group>"; };
 		A90B68931E4C0B5C00272497 /* UIView+YYAdd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+YYAdd.m"; sourceTree = "<group>"; };
+		A90B68A61E4C3F6F00272497 /* camra_beauty_close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camra_beauty_close@2x.png"; sourceTree = "<group>"; };
+		A90B68A71E4C3F6F00272497 /* camra_beauty_close@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camra_beauty_close@3x.png"; sourceTree = "<group>"; };
+		A90B68A81E4C3F6F00272497 /* camra_beauty@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camra_beauty@2x.png"; sourceTree = "<group>"; };
+		A90B68A91E4C3F6F00272497 /* camra_beauty@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camra_beauty@3x.png"; sourceTree = "<group>"; };
+		A90B68AE1E4C4A4D00272497 /* MagicStickerHeaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MagicStickerHeaders.h; path = MagicSticker/MagicStickerHeaders.h; sourceTree = "<group>"; };
+		A90B68AF1E4C4A4D00272497 /* MagicStickerHeaders.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MagicStickerHeaders.m; path = MagicSticker/MagicStickerHeaders.m; sourceTree = "<group>"; };
+		A90B68B51E4C576200272497 /* MSFaceDetector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSFaceDetector.h; path = MagicSticker/MSFaceDetector.h; sourceTree = "<group>"; };
+		A90B68B61E4C576200272497 /* MSFaceDetector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSFaceDetector.m; path = MagicSticker/MSFaceDetector.m; sourceTree = "<group>"; };
 		A915962B1E45BCCC008DABB5 /* seaback.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = seaback.png; sourceTree = "<group>"; };
 		A915962C1E45BCCC008DABB5 /* seabody.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = seabody.png; sourceTree = "<group>"; };
 		A915962D1E45BCCC008DABB5 /* seaface.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = seaface.png; sourceTree = "<group>"; };
@@ -1302,6 +1316,28 @@
 			path = Framework;
 			sourceTree = "<group>";
 		};
+		A90B68A51E4C3F6600272497 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				A90B68A61E4C3F6F00272497 /* camra_beauty_close@2x.png */,
+				A90B68A71E4C3F6F00272497 /* camra_beauty_close@3x.png */,
+				A90B68A81E4C3F6F00272497 /* camra_beauty@2x.png */,
+				A90B68A91E4C3F6F00272497 /* camra_beauty@3x.png */,
+			);
+			name = images;
+			sourceTree = "<group>";
+		};
+		A90B68B11E4C4A5100272497 /* MagicSticker */ = {
+			isa = PBXGroup;
+			children = (
+				A90B68AE1E4C4A4D00272497 /* MagicStickerHeaders.h */,
+				A90B68AF1E4C4A4D00272497 /* MagicStickerHeaders.m */,
+				A90B68B51E4C576200272497 /* MSFaceDetector.h */,
+				A90B68B61E4C576200272497 /* MSFaceDetector.m */,
+			);
+			name = MagicSticker;
+			sourceTree = "<group>";
+		};
 		A91596281E45BCC3008DABB5 /* sea */ = {
 			isa = PBXGroup;
 			children = (
@@ -1408,7 +1444,6 @@
 			isa = PBXGroup;
 			children = (
 				A9863C8C1E30B91000909317 /* res */,
-				FD8D748B1E0CB94200D1C8CD /* FaceRecognition */,
 			);
 			path = lib;
 			sourceTree = "<group>";
@@ -1418,7 +1453,8 @@
 			children = (
 				FD8D74971E0CB94200D1C8CD /* tools */,
 			);
-			path = FaceRecognition;
+			name = FaceRecognition;
+			path = lib/FaceRecognition;
 			sourceTree = "<group>";
 		};
 		FD8D74971E0CB94200D1C8CD /* tools */ = {
@@ -1512,15 +1548,18 @@
 				FD8D748A1E0CB94200D1C8CD /* lib */,
 				A9E67C4F1E49AD3300419C04 /* iflyMSC.framework */,
 				FD6BA4501D12CE440080EB2D /* Main.storyboard */,
+				FD8D748B1E0CB94200D1C8CD /* FaceRecognition */,
 				D9659FC4A6DF917D6C94AB64 /* Frameworks */,
 				FDAAD2541CE1CD7A00C7B6AC /* AppDelegate.h */,
 				FDAAD2551CE1CD7A00C7B6AC /* AppDelegate.m */,
 				A90B688D1E4B14D900272497 /* GPUImageBeautifyFilter.h */,
 				A90B688E1E4B14D900272497 /* GPUImageBeautifyFilter.m */,
+				A90B68A51E4C3F6600272497 /* images */,
 				A976BD751E488146001E7A00 /* MSGPUImageMovieWriter.h */,
 				A976BD761E488146001E7A00 /* MSGPUImageMovieWriter.m */,
 				FDAAD2571CE1CD7A00C7B6AC /* ViewController.h */,
 				FDAAD2581CE1CD7A00C7B6AC /* ViewController.m */,
+				A90B68B11E4C4A5100272497 /* MagicSticker */,
 				FDAAD25D1CE1CD7A00C7B6AC /* Assets.xcassets */,
 				FDAAD25F1CE1CD7A00C7B6AC /* LaunchScreen.storyboard */,
 				FDAAD2621CE1CD7A00C7B6AC /* Info.plist */,
@@ -1591,7 +1630,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0730;
-				ORGANIZATIONNAME = "林伟池";
+				ORGANIZATIONNAME = Bill;
 				TargetAttributes = {
 					FDAAD24D1CE1CD7A00C7B6AC = {
 						CreatedOnToolsVersion = 7.3;
@@ -1641,8 +1680,11 @@
 				A91596451E45CE62008DABB5 /* eleme-bg.png in Resources */,
 				A915962F1E45BCCC008DABB5 /* seaback.png in Resources */,
 				A915964B1E45CE6A008DABB5 /* cococolaRightEar.png in Resources */,
+				A90B68AD1E4C3F6F00272497 /* camra_beauty@3x.png in Resources */,
 				A915964D1E45E1BC008DABB5 /* newyearBack.png in Resources */,
 				A9863C851E30B90B00909317 /* cocacolaIcon.png in Resources */,
+				A90B68AA1E4C3F6F00272497 /* camra_beauty_close@2x.png in Resources */,
+				A90B68AC1E4C3F6F00272497 /* camra_beauty@2x.png in Resources */,
 				FD8D74CC1E0CC1E100D1C8CD /* Crown.png in Resources */,
 				A91596411E45CDF2008DABB5 /* elemeLeftEar.png in Resources */,
 				A915964F1E45E4D3008DABB5 /* firstNewyearBack.png in Resources */,
@@ -1651,6 +1693,7 @@
 				A9863C791E30933A00909317 /* faceRedTag.png in Resources */,
 				A91596431E45CDF2008DABB5 /* elemeRightEar.png in Resources */,
 				FDAAD25E1CE1CD7A00C7B6AC /* Assets.xcassets in Resources */,
+				A90B68AB1E4C3F6F00272497 /* camra_beauty_close@3x.png in Resources */,
 				A9863C881E30B90B00909317 /* icon.png in Resources */,
 				A91D80691E4577E000C82233 /* transparentBack.png in Resources */,
 				A9863C861E30B90B00909317 /* earIcon.png in Resources */,
@@ -1688,6 +1731,7 @@
 				A90B687F1E4B113D00272497 /* GPUImageUIElement.m in Sources */,
 				A90B68801E4B113D00272497 /* GPUImageUnsharpMaskFilter.m in Sources */,
 				A90B67F91E4B113C00272497 /* GPUImageColorLocalBinaryPatternFilter.m in Sources */,
+				A90B68B71E4C576200272497 /* MSFaceDetector.m in Sources */,
 				A90B681B1E4B113C00272497 /* GPUImageHalftoneFilter.m in Sources */,
 				A90B68601E4B113C00272497 /* GPUImageSharpenFilter.m in Sources */,
 				A90B67E91E4B113C00272497 /* GPUImageAverageLuminanceThresholdFilter.m in Sources */,
@@ -1797,6 +1841,7 @@
 				A90B68561E4B113C00272497 /* GPUImageRawDataOutput.m in Sources */,
 				A90B68311E4B113C00272497 /* GPUImageLinearBurnBlendFilter.m in Sources */,
 				A90B68161E4B113C00272497 /* GPUImageGaussianBlurFilter.m in Sources */,
+				A90B68B01E4C4A4D00272497 /* MagicStickerHeaders.m in Sources */,
 				A90B68501E4B113C00272497 /* GPUImagePoissonBlendFilter.m in Sources */,
 				A90B688A1E4B113D00272497 /* GPUImagePicture+TextureSubimage.m in Sources */,
 				A90B68091E4B113C00272497 /* GPUImageEmbossFilter.m in Sources */,
