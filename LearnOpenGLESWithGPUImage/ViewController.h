@@ -16,14 +16,6 @@
     GPUImageMovieWriter *movieWriter;
 }
 
-@property (nonatomic) UIButton *firstStyleButton;
-@property (nonatomic) UIButton *secondStyleButton;
-@property (nonatomic) UIButton *thirdStyleButton;
-@property (nonatomic) UIButton *fourthStyleButton;
-@property (nonatomic) UIButton *fifthStyleButton;
-
-@property (nonatomic) UIButton *videoSaveButton;
-@property (nonatomic) UIButton *rtmpButton;
 
 @end
 

@@ -6,14 +6,15 @@
 //  Copyright © 2017年 Bill. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import "GPUImage.h"
 #import <iflyMSC/IFlyFaceSDK.h>
 #import "IFlyFaceImage.h"
+#import "IFlyFaceResultKeys.h"
 
-@interface MSFaceDetector : NSObject
+@interface MSFaceDetector : UIView
 
-- (CMSampleBufferRef)faceImageSampleBufferFromPlatform:(CMSampleBufferRef)sampleBuffer;
-- (CVPixelBufferRef)faceImagePixelBufferFromPlatform:(CVPixelBufferRef)pixelBuffer;
+- (CMSampleBufferRef)faceImageSampleBufferFromPlatform:(CMSampleBufferRef)sampleBuffer isFront:(BOOL)isFront;
+- (CVPixelBufferRef)faceImagePixelBufferFromPlatform:(CVPixelBufferRef)pixelBuffer isFront:(BOOL)isFront;
 
 @end
